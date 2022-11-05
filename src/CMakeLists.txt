@@ -1,6 +1,7 @@
 include_directories(../include)
 
 set(sources
+Foobar.cpp
 FoobarApp.cpp
 FoobarFrame.cpp
 )
