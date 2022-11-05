@@ -1,7 +1,6 @@
 #!/bin/sh
 
 mkdir -p tmp/cmake
-cd tmp/cmake
-cmake ../..
+cd tmp/cmake || exit 1
+cmake ../.. || exit 1
 cmake --build .
-cd -
