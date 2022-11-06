@@ -24,9 +24,10 @@ jobs:
 
       - uses: "egor-tensin/build-boost@v1"
         with:
+          configuration: "Debug"
+          directory: "${{ github.workspace }}/lib/boost"
           version: "1.80.0"
           libraries: "log system"
-          directory: "${{ github.workspace }}/lib/boost"
 
       - name: "Build"
         shell: "bash"

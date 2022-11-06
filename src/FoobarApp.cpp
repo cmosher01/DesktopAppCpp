@@ -1,9 +1,6 @@
 #include "FoobarApp.h"
 #include "FoobarFrame.h"
 #include <wx/stdpaths.h>
-#ifdef __WXMSW__
-#include <SDKDDKVer.h>
-#endif
 #include <boost/log/trivial.hpp>
 
 wxIMPLEMENT_APP_NO_MAIN(FoobarApp);
