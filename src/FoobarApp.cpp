@@ -29,8 +29,9 @@ bool FoobarApp::OnInit()
     BOOST_LOG_TRIVIAL(info) << "Class name: " << GetClassName();
 
 
-
+#ifdef __WXGTK__
     BOOST_LOG_TRIVIAL(info) << "Install prefix: " << wxStandardPaths::Get().GetInstallPrefix();
+#endif
     BOOST_LOG_TRIVIAL(info) << "Executable path: " << wxStandardPaths::Get().GetExecutablePath();
     BOOST_LOG_TRIVIAL(info) << "test config file name: " << wxStandardPaths::Get().MakeConfigFileName(wxString("test"));
 
@@ -65,8 +66,7 @@ bool FoobarApp::OnInit()
 #if wxUSE_GUI
     FoobarFrame *frame = new FoobarFrame();
     frame->Show(true);
-    return true;
-#else
-    return false;
 #endif
+
+    return true;
 }
