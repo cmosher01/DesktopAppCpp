@@ -19,14 +19,16 @@ jobs:
         with:
           submodules: "true"
 
-      - uses: "MarkusJx/install-boost@v2.4.0"
+      - uses: "actions/cache@v3"
         with:
-          boost_version: "1.79.0"
-          platform_version: "20.04"
-          toolset: "gcc"
-          link: "static+shared"
-          arch: "aarch64"
-          boost_install_dir: "./lib"
+          path: "${{ github.workspace }}/lib/boost/boost_*.tar.gz"
+          key: "boost-1.80.0"
+
+      - uses: "egor-tensin/build-boost@v1"
+        with:
+          version: "1.80.0"
+          libraries: "log system"
+          directory: "{{ github.workspace }}/lib/boost"
 
       - name: "Build"
         shell: "bash"
@@ -50,13 +52,16 @@ jobs:
         with:
           submodules: "true"
 
-      - uses: "MarkusJx/install-boost@v2.4.0"
+      - uses: "actions/cache@v3"
         with:
-          boost_version: "1.79.0"
-          platform_version: "11"
-          toolset: "clang"
-          link: "static+shared"
-          boost_install_dir: "./lib"
+          path: "${{ github.workspace }}/lib/boost/boost_*.tar.gz"
+          key: "boost-1.80.0"
+
+      - uses: "egor-tensin/build-boost@v1"
+        with:
+          version: "1.80.0"
+          libraries: "log system"
+          directory: "{{ github.workspace }}/lib/boost"
 
       - name: "Build"
         shell: "bash"
@@ -79,13 +84,16 @@ jobs:
         with:
           submodules: "true"
 
-      - uses: "MarkusJx/install-boost@v2.4.0"
+      - uses: "actions/cache@v3"
         with:
-          boost_version: "1.79.0"
-          platform_version: "2022"
-          toolset: "msvc"
-          link: "shared"
-          boost_install_dir: "./lib"
+          path: "${{ github.workspace }}/lib/boost/boost_*.tar.gz"
+          key: "boost-1.80.0"
+
+      - uses: "egor-tensin/build-boost@v1"
+        with:
+          version: "1.80.0"
+          libraries: "log system"
+          directory: "{{ github.workspace }}/lib/boost"
 
       - name: "Build"
         shell: "bash"
