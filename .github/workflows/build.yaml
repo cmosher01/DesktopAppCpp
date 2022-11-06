@@ -26,6 +26,7 @@ jobs:
           toolset: "gcc"
           link: "static+shared"
           arch: "aarch64"
+          boost_install_dir: "./lib"
 
       - name: "Build"
         shell: "bash"
@@ -55,6 +56,7 @@ jobs:
           platform_version: "11"
           toolset: "clang"
           link: "static+shared"
+          boost_install_dir: "./lib"
 
       - name: "Build"
         shell: "bash"
@@ -83,6 +85,7 @@ jobs:
           platform_version: "2022"
           toolset: "msvc"
           link: "shared"
+          boost_install_dir: "./lib"
 
       - name: "Build"
         shell: "bash"
