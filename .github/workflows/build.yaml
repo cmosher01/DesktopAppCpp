@@ -19,10 +19,10 @@ jobs:
 
       - name: "Build"
         shell: "bash"
-        run: "build_linux.sh"
+        run: "./build_linux.sh"
 
       - name: "Run"
-        run: "tmp/cmake/src/foobar"
+        run: "./tmp/cmake/src/foobar"
 
 
 
@@ -39,10 +39,10 @@ jobs:
 
       - name: "Build"
         shell: "bash"
-        run: "build_linux.sh"
+        run: "./build_linux.sh"
 
       - name: "Run"
-        run: "tmp/cmake/src/foobar"
+        run: "./tmp/cmake/src/foobar"
 
 
 
@@ -58,7 +58,7 @@ jobs:
 
       - name: "Build"
         shell: "bash"
-        run: "build_linux.sh"
+        run: "./build_linux.sh"
 
       - name: "Run"
-        run: "tmp/cmake/src/foobar"
+        run: "./tmp/cmake/src/foobar"
