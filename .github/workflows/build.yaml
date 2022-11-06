@@ -56,7 +56,7 @@ jobs:
       - name: "Prepare runner"
         shell: "bash"
         run: |
-          choco install boost-msvs-14.1
+          choco install boost-msvc-14.1
 
       - uses: "actions/checkout@v3"
         with:
