@@ -7,7 +7,7 @@ add_executable(foobar ${sources})
 
 target_compile_features(foobar PRIVATE cxx_std_17)
 
-find_package(Boost REQUIRED COMPONENTS log)
+find_package(Boost REQUIRED COMPONENTS log PATHS "${CMAKE_SOURCE_DIR}/lib/boost/boost")
 message(STATUS "Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
 target_include_directories(foobar PRIVATE ${Boost_INCLUDE_DIRS})
 message(STATUS "Boost_LIBRARIES: ${Boost_LIBRARIES}")
