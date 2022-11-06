@@ -15,7 +15,7 @@ bool FoobarApp::OnInit()
     SetVendorName("nu.mine.mosher");
 
 #ifdef __WXMSW__
-    wxStandardPaths::Get().DontIgnoreAppSubDir()
+    wxStandardPaths::Get().DontIgnoreAppSubDir();
 #endif
     wxStandardPaths::Get().SetFileLayout(wxStandardPaths::FileLayout_XDG);
     wxStandardPaths::Get().UseAppInfo(wxStandardPaths::AppInfo_AppName | wxStandardPaths::AppInfo_VendorName);
