@@ -28,6 +28,6 @@ cd tmp/cmake
 
 
 
-cmake "$root" --debug-trycompile -D CMAKE_C_COMPILER=gcc-12 -D CMAKE_CXX_COMPILER=g++-12
+cmake "$root" --debug-trycompile # -D CMAKE_C_COMPILER=gcc-12 -D CMAKE_CXX_COMPILER=g++-12
 #cmake --build .
 #cpack
