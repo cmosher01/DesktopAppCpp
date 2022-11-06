@@ -21,7 +21,7 @@ jobs:
 
       - uses: "actions/cache@v3"
         with:
-          path: "${{ github.workspace }}/lib/boost/boost_*.tar.gz"
+          path: "${{ runner.workspace }}/boost_*.tar.gz"
           key: "boost-1.80.0"
 
       - uses: "egor-tensin/build-boost@v1"
@@ -54,7 +54,7 @@ jobs:
 
       - uses: "actions/cache@v3"
         with:
-          path: "${{ github.workspace }}/lib/boost/boost_*.tar.gz"
+          path: "${{ runner.workspace }}/boost_*.tar.gz"
           key: "boost-1.80.0"
 
       - uses: "egor-tensin/build-boost@v1"
@@ -86,7 +86,7 @@ jobs:
 
       - uses: "actions/cache@v3"
         with:
-          path: "${{ github.workspace }}/lib/boost/boost_*.tar.gz"
+          path: "${{ runner.workspace }}/boost_*.tar.gz"
           key: "boost-1.80.0"
 
       - uses: "egor-tensin/build-boost@v1"
