@@ -12,6 +12,7 @@ if [ -d .boost ] ; then
     echo ".boost/stage/x64/Debug/lib/cmake/Boost-*================="
     ls -l .boost/stage/x64/Debug/lib/cmake/Boost-*
     mv -nv .boost/stage/x64/Debug/lib/cmake lib/boost
+    mv -nv lib/boost/Boost-* lib/boost/cmake
     echo "lib/boost================================================"
     ls -l lib/boost
 fi

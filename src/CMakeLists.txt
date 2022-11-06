@@ -10,7 +10,7 @@ target_compile_features(foobar PRIVATE cxx_std_17)
 set(Boost_USE_STATIC_LIBS FALSE)
 set(Boost_USE_MULTITHREADED TRUE)
 set(CMAKE_FIND_DEBUG_MODE TRUE) # TODO
-find_package(Boost REQUIRED COMPONENTS log)
+find_package(Boost REQUIRED COMPONENTS log) # PATH ${CMAKE_SOURCE_DIR}/lib/boost/boost
 set(CMAKE_FIND_DEBUG_MODE FALSE) # TODO
 target_include_directories(foobar PRIVATE ${Boost_INCLUDE_DIRS})
 target_link_libraries(foobar ${Boost_LIBRARIES})
