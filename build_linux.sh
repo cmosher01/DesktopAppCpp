@@ -10,6 +10,7 @@ cd tmp/cmake
 
 cmake "$root"
 cmake --build .
-cpack
+ls -l src
 
-ls -l
+#cpack
+#ls -l
