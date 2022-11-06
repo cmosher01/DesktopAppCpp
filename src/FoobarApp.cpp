@@ -1,7 +1,5 @@
 #include "FoobarApp.h"
-#if wxUSE_GUI
 #include "FoobarFrame.h"
-#endif
 #include <wx/stdpaths.h>
 #include <boost/log/trivial.hpp>
 
@@ -62,12 +60,7 @@ bool FoobarApp::OnInit()
 
 
 
-
-#if wxUSE_GUI
     FoobarFrame *frame = new FoobarFrame();
     frame->Show(true);
     return true;
-#else
-    return false;
-#endif
 }

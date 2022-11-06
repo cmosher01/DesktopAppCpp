@@ -1,5 +1,3 @@
-#if wxUSE_GUI
-
 #include "FoobarFrame.h"
 
 enum {
@@ -43,5 +41,3 @@ void FoobarFrame::OnAbout(wxCommandEvent& event) {
 void FoobarFrame::OnHello(wxCommandEvent& event) {
     wxLogMessage("Hello world from wxWidgets!");
 }
-
-#endif
