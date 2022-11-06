@@ -1,16 +1,18 @@
 #!/bin/sh
 
 set -x
+set -e
+
 root="$(pwd)"
 
-git submodule update --init --recursive || exit 1
+git submodule update --init --recursive
 
 mkdir -p tmp/cmake
-cd tmp/cmake || exit 1
+cd tmp/cmake
 
 
 
-cmake "$root" || exit 1
+cmake "$root"
 cmake --build .
 cpack
 
