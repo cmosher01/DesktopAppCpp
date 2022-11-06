@@ -28,7 +28,7 @@ jobs:
         with:
           version: "1.80.0"
           libraries: "log system"
-          directory: "{{ github.workspace }}/lib/boost"
+          directory: "${{ github.workspace }}/lib/boost"
 
       - name: "Build"
         shell: "bash"
@@ -61,7 +61,7 @@ jobs:
         with:
           version: "1.80.0"
           libraries: "log system"
-          directory: "{{ github.workspace }}/lib/boost"
+          directory: "${{ github.workspace }}/lib/boost"
 
       - name: "Build"
         shell: "bash"
@@ -93,7 +93,7 @@ jobs:
         with:
           version: "1.80.0"
           libraries: "log system"
-          directory: "{{ github.workspace }}/lib/boost"
+          directory: "${{ github.workspace }}/lib/boost"
 
       - name: "Build"
         shell: "bash"
