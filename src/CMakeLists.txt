@@ -14,7 +14,7 @@ target_compile_features(foobar PRIVATE cxx_std_17)
 # target_link_libraries(foobar ${Boost_LIBRARIES})
 
 # CPMAddPackage("gh:wxWidgets/wxWidgets@3.2.1")
-find_package(wxmsw REQUIRED)
+find_library(wx wx REQUIRED)
 target_link_libraries(foobar wx::base wx::core)
 
 install(TARGETS foobar RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})

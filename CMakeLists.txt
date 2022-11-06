@@ -21,14 +21,14 @@ message(VERBOSE "CMAKE_INSTALL_FULL_BINDIR=${CMAKE_INSTALL_FULL_BINDIR}")
 message(VERBOSE "CMAKE_INSTALL_SYSCONFDIR=${CMAKE_INSTALL_SYSCONFDIR}")
 message(VERBOSE "CMAKE_INSTALL_FULL_SYSCONFDIR=${CMAKE_INSTALL_FULL_SYSCONFDIR}")
 
-# set(CMAKE_FIND_DEBUG_MODE TRUE)
+set(CMAKE_FIND_DEBUG_MODE TRUE)
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/lib/cmake")
 set(CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}")
 include_directories(include)
 
-set(CPM_URL "https://github.com/TheLartians/CPM.cmake/releases/latest/download/CPM.cmake")
-file(DOWNLOAD "${CPM_URL}" "${CMAKE_SOURCE_DIR}/lib/cmake/CPM.cmake")
-include(CPM)
+# set(CPM_URL "https://github.com/TheLartians/CPM.cmake/releases/latest/download/CPM.cmake")
+# file(DOWNLOAD "${CPM_URL}" "${CMAKE_SOURCE_DIR}/lib/cmake/CPM.cmake")
+# include(CPM)
 
 # add_subdirectory(lib)
 add_subdirectory(src)
