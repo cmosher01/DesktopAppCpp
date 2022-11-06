@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 3.22.1)
 
+if(APPLE)
+    set(CMAKE_C_COMPILER gcc-12)
+    set(CMAKE_CXX_COMPILER g++-12)
+endif()
+
 project(foobar)
 
 file(TO_CMAKE_PATH "${PROJECT_BINARY_DIR}/CMakeLists.txt" LOC_PATH)
@@ -22,7 +27,7 @@ set(CMAKE_FIND_DEBUG_MODE TRUE)
 set(CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}")
 include_directories(include)
 
-# add_subdirectory(lib)
+add_subdirectory(lib)
 add_subdirectory(src)
 
 include(CPack)
