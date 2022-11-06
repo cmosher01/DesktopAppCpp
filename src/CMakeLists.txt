@@ -7,6 +7,8 @@ add_executable(foobar ${sources})
 
 target_compile_features(foobar PRIVATE cxx_std_17)
 
+set(Boost_USE_STATIC_LIBS FALSE)
+set(Boost_USE_MULTITHREADED TRUE)
 find_package(Boost REQUIRED COMPONENTS log PATHS "${CMAKE_SOURCE_DIR}/lib/boost/stage/x64/Release/lib/cmake/Boost-1.80.0")
 target_include_directories(foobar PRIVATE ${Boost_INCLUDE_DIRS})
 target_link_libraries(foobar ${Boost_LIBRARIES})
