@@ -15,11 +15,13 @@ target_compile_features(foobar PRIVATE cxx_std_17)
 
 # CPMAddPackage("gh:wxWidgets/wxWidgets@3.2.1")
 if(WIN32)
-    find_library(wx wx REQUIRED PATHS "${CMAKE_SOURCE_DIR}/lib/wx/lib/vc14x_x64_dll")
+    find_library(wxbase wxbase32ud REQUIRED PATHS "${CMAKE_SOURCE_DIR}/lib/wx/lib/vc14x_x64_dll")
+    find_library(wxcore wxmsw32ud_core REQUIRED PATHS "${CMAKE_SOURCE_DIR}/lib/wx/lib/vc14x_x64_dll")
 else()
-    find_library(wx wx REQUIRED)
+    find_library(wxbase wxbase REQUIRED)
+    find_library(wxcore wxcore REQUIRED)
 endif()
 
-target_link_libraries(foobar wx::base wx::core)
+target_link_libraries(foobar ${wxbase} ${wxcore})
 
 install(TARGETS foobar RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
