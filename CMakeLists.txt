@@ -22,7 +22,7 @@ set(CMAKE_FIND_DEBUG_MODE TRUE)
 set(CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}")
 include_directories(include)
 
-add_subdirectory(lib)
+# add_subdirectory(lib)
 add_subdirectory(src)
 
 include(CPack)
