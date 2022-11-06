@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.22.1)
 
-include(CPack)
-
 project(foobar)
 
 file(TO_CMAKE_PATH "${PROJECT_BINARY_DIR}/CMakeLists.txt" LOC_PATH)
@@ -26,3 +24,5 @@ include_directories(include)
 
 add_subdirectory(lib)
 add_subdirectory(src)
+
+include(CPack)

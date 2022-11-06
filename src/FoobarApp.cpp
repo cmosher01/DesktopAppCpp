@@ -66,7 +66,8 @@ bool FoobarApp::OnInit()
 #if wxUSE_GUI
     FoobarFrame *frame = new FoobarFrame();
     frame->Show(true);
-#endif
-
     return true;
+#else
+    return false;
+#endif
 }
