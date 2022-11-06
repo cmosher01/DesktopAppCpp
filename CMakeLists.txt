@@ -26,10 +26,6 @@ set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/lib/cmake")
 set(CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}")
 include_directories(include)
 
-# set(CPM_URL "https://github.com/TheLartians/CPM.cmake/releases/latest/download/CPM.cmake")
-# file(DOWNLOAD "${CPM_URL}" "${CMAKE_SOURCE_DIR}/lib/cmake/CPM.cmake")
-# include(CPM)
-
 add_subdirectory(src)
 
 include(CPack)
