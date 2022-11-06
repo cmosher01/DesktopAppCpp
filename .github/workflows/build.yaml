@@ -9,8 +9,8 @@ jobs:
     strategy:
       matrix:
         os:
-          - "ubuntu-latest"
-          - "macos-latest"
+          - "ubuntu-22.04"
+          - "macos-12"
           - "windows-latest"
 
     runs-on: "${{ matrix.os }}"
