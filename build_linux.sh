@@ -27,7 +27,8 @@ mkdir -p tmp/cmake
 cd tmp/cmake
 
 
-
+export CMAKE_C_COMPILER=gcc-12
+export CMAKE_CXX_COMPILER=g++-12
 cmake "$root" --debug-trycompile # -D CMAKE_C_COMPILER=gcc-12 -D CMAKE_CXX_COMPILER=g++-12
 #cmake --build .
 #cpack
