@@ -11,7 +11,7 @@ fi
 mkdir -p tmp/cmake
 cd tmp/cmake
 
-cmake ..
+cmake ../..
 cmake --build .
 ls -l src
 
