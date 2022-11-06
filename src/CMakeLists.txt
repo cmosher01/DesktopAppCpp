@@ -7,8 +7,6 @@ add_executable(foobar ${sources})
 
 target_compile_features(foobar PRIVATE cxx_std_17)
 
-target_include_directories(foobar PRIVATE ../include)
-
 find_package(Boost REQUIRED COMPONENTS log)
 message(STATUS "Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
 target_include_directories(foobar PRIVATE ${Boost_INCLUDE_DIRS})
