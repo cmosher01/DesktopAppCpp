@@ -9,9 +9,9 @@ jobs:
     strategy:
       matrix:
         os:
-          # - "ubuntu-latest"
+          - "ubuntu-latest"
           - "macos-latest"
-          # - "windows-latest"
+          - "windows-latest"
 
     runs-on: "${{ matrix.os }}"
 
@@ -20,11 +20,11 @@ jobs:
         with:
           submodules: "true"
 
-      # - uses: "egor-tensin/build-boost@v1"
-      #   with:
-      #     version: "1.80.0"
-      #     libraries: "log system"
-      #     directory: "${{ github.workspace }}/lib/boost"
+      - uses: "egor-tensin/build-boost@v1"
+        with:
+          version: "1.80.0"
+          libraries: "log system"
+          directory: "${{ github.workspace }}/lib/boost"
 
       - name: "Build"
         shell: "bash"
