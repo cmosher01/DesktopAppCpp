@@ -15,6 +15,7 @@ target_include_directories(foobar PRIVATE ${Boost_INCLUDE_DIRS})
 message(STATUS "Boost_LIBRARIES: ${Boost_LIBRARIES}")
 target_link_libraries(foobar ${Boost_LIBRARIES})
 
-target_link_libraries(foobar wx::core wx::base)
+target_link_libraries(foobar wx::base)
+#wx::core
 
 install(TARGETS foobar RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})

@@ -4,4 +4,7 @@ set(wxUSE_XRC FALSE)
 set(wxUSE_RICHTEXT_XML_HANDLER FALSE)
 set(wxUSE_RICHTEXT FALSE)
 set(wxUSE_DEBUGREPORT FALSE)
+
+set(wxUSE_GUI FALSE)
+
 add_subdirectory(wxWidgets)
