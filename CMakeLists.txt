@@ -30,7 +30,6 @@ include_directories(include)
 # file(DOWNLOAD "${CPM_URL}" "${CMAKE_SOURCE_DIR}/lib/cmake/CPM.cmake")
 # include(CPM)
 
-# add_subdirectory(lib)
 add_subdirectory(src)
 
 include(CPack)

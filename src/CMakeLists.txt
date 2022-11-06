@@ -13,8 +13,6 @@ target_compile_features(foobar PRIVATE cxx_std_17)
 # message(STATUS "Boost_LIBRARIES: ${Boost_LIBRARIES}")
 # target_link_libraries(foobar ${Boost_LIBRARIES})
 
-# CPMAddPackage("gh:wxWidgets/wxWidgets@3.2.1")
-
 # if(WIN32)
 #     find_library(wxbase wxbase32ud REQUIRED PATHS "${CMAKE_SOURCE_DIR}/lib/wx/lib/vc14x_x64_dll")
 #     find_library(wxcore wxmsw32ud_core REQUIRED PATHS "${CMAKE_SOURCE_DIR}/lib/wx/lib/vc14x_x64_dll")
@@ -26,11 +24,7 @@ target_compile_features(foobar PRIVATE cxx_std_17)
 #     target_link_libraries(foobar ${wxWidgets_LIBRARIES})
 # endif()
 
-if(WIN32)
-    set(wxWidgets_ROOT_DIR ${CMAKE_SOURCE_DIR}/lib/wx)
-endif()
 find_package(wxWidgets REQUIRED COMPONENTS base core)
-# target_include_directories(foobar PRIVATE ${wxWidgets_INCLUDE_DIRS})
 include(${wxWidgets_USE_FILE})
 target_link_libraries(foobar ${wxWidgets_LIBRARIES})
 
