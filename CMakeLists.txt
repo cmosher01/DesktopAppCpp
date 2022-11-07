@@ -10,7 +10,7 @@ if(EXISTS "${LOC_PATH}")
     message(FATAL_ERROR "You cannot build in a source directory; make a build subdirectory.")
 endif()
 
-set(CMAKE_STATUS_MAKEFILE TRUE)
+set(CMAKE_VERBOSE_MAKEFILE TRUE)
 set(CMAKE_FIND_PACKAGE_PREFER_CONFIG TRUE)
 
 message(STATUS "CPACK_PACKAGING_INSTALL_PREFIX=${CPACK_PACKAGING_INSTALL_PREFIX}")
