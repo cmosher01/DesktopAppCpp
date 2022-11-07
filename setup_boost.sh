@@ -5,17 +5,16 @@ if [ $# -ne 1 ] ; then
     exit 1
 fi
 
-pwd
+root="$(pwd)"
+echo "github workspace: $root"
+
+echo "boost staging directory: $1"
+cd "$1" | exit 1
+
 ls -l
-ls -l ..
-ls -l ../..
 
-echo "boost staging: $1"
-ls -l "$1"
+cp -r boost "$root/include/"
+cp -r stage/x64/Debug/lib/* "$root/lib/"
 
-# move staged boost (from github action build-boost in build.yaml workflow)
-# to well-known location
-# if [ -d lib/boost ] ; then
-#     mv lib/boost/boost include/
-#     cp -rv lib/boost/stage/x64/Debug/lib/* lib/
-# fi
+ls -l "$root/include/"
+ls -l "$root/lib/"
