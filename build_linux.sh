@@ -5,16 +5,19 @@ set -e
 # move staged boost (from github action build-boost in build.yaml workflow)
 # to well-known location
 if [ -d .boost ] ; then
-    echo ".boost==================================================="
-    ls -l .boost
-    echo ".boost/stage/x64/Debug/lib/cmake========================="
-    ls -l .boost/stage/x64/Debug/lib/cmake
-    echo ".boost/stage/x64/Debug/lib/cmake/Boost-*================="
-    ls -l .boost/stage/x64/Debug/lib/cmake/Boost-*
-    mv -nv .boost/stage/x64/Debug/lib/cmake lib/boost
-    mv -nv lib/boost/Boost-* lib/boost/cmake
-    echo "lib/boost================================================"
+    echo "lib/boost==================================================="
     ls -l lib/boost
+    echo "lib/boost/stage/x64/Debug/lib/cmake========================="
+    ls -l lib/boost/stage/x64/Debug/lib/cmake
+    echo "lib/boost/stage/x64/Debug/lib/cmake/Boost-*================="
+    ls -l lib/boost/stage/x64/Debug/lib/cmake/Boost-*
+    echo "========================================================="
+
+
+    mv -nv lib/boost/stage/x64/Debug/lib/cmake/Boost-* lib/boost/stage/x64/Debug/lib/cmake/boost
+    ls -l lib/boost/stage/x64/Debug/lib/cmake
+    ls -l lib/boost/stage/x64/Debug/lib/cmake/boost
+
 fi
 
 mkdir -p tmp/cmake
