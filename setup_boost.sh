@@ -11,7 +11,6 @@ echo "github workspace: $project_dir"
 boost_dir="$1"
 cp=$(which cygpath)
 if [ -x "$cp" ] ; then
-    cygpath -u "$1"
     boost_dir="$(cygpath -u "$1")"
 fi
 echo "boost staging directory: $boost_dir"
