@@ -26,18 +26,19 @@ ls -l /usr/lib/x86_64-linux-gnu/cmake
 if [ -d lib/boost ] ; then
     echo "lib/boost==================================================="
     ls -l lib/boost
+    echo "lib/boost/stage/x64/Debug========================="
+    ls -l lib/boost/stage/x64/Debug
+    echo "lib/boost/stage/x64/Debug/lib========================="
+    ls -l lib/boost/stage/x64/Debug/lib
     echo "lib/boost/stage/x64/Debug/lib/cmake========================="
     ls -l lib/boost/stage/x64/Debug/lib/cmake
-    echo "lib/boost/stage/x64/Debug/lib/cmake/Boost-*================="
-    ls -l lib/boost/stage/x64/Debug/lib/cmake/Boost-*
     echo "========================================================="
 
-    mkdir -p /usr/lib/cmake
-    mv -nv lib/boost/stage/x64/Debug/lib/cmake/* /usr/lib/cmake/
-
-    echo "/usr/lib/cmake==================================================="
-    ls -l /usr/lib/cmake
-    echo "================================================================="
+    # mkdir -p /usr/lib/cmake
+    # mv -v lib/boost/stage/x64/Debug/lib/cmake/* /usr/lib/cmake/
+    # echo "/usr/lib/cmake==================================================="
+    # ls -l /usr/lib/cmake
+    # echo "================================================================="
 fi
 
 mkdir -p tmp/cmake
