@@ -12,7 +12,7 @@ if(WIN32)
     # TODO: see if anyone ever fixes whatever bug requires us to set these two:
     set_target_properties(foobar PROPERTIES COMPILE_DEFINITIONS BOOST_ALL_DYN_LINK)
     set_target_properties(foobar PROPERTIES COMPILE_DEFINITIONS BOOST_ALL_NO_LIB)
-    set_target_properties(foobar PROPERTIES COMPILE_DEFINITIONS BOOST_USE_WINAPI_VERSION=0x0A00)
+    set_target_properties(foobar PROPERTIES COMPILE_DEFINITIONS BOOST_USE_WINAPI_VERSION=0x0602)
 endif()
 message(STATUS "Boost_LIBRARIES=${Boost_LIBRARIES}")
 target_link_libraries(foobar PRIVATE ${Boost_LIBRARIES})
