@@ -8,8 +8,11 @@ add_executable(foobar ${sources})
 target_compile_features(foobar PRIVATE cxx_std_17)
 
 find_package(Boost REQUIRED COMPONENTS headers log)
-target_compile_definitions(foobar PRIVATE "$<TARGET_PROPERTY:Boost::disable_autolinking,INTERFACE_COMPILE_DEFINITIONS>")
-target_compile_definitions(foobar PRIVATE "$<TARGET_PROPERTY:Boost::dynamic_linking,INTERFACE_COMPILE_DEFINITIONS>")
+if(WIN32)
+    # TODO: see if anyone ever fixes whatever bug requires us to set these two:
+    target_compile_definitions(foobar PRIVATE BOOST_ALL_DYN_LINK)
+    target_compile_definitions(foobar PRIVATE BOOST_ALL_NO_LIB)
+endif()
 target_link_libraries(foobar PRIVATE ${Boost_LIBRARIES})
 
 find_package(wxWidgets REQUIRED COMPONENTS base core)
