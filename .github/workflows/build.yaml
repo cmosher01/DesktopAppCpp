@@ -15,20 +15,41 @@ jobs:
 
     runs-on: "${{ matrix.os }}"
 
+    env:
+      "boost-version": "1.80.0"
+
     steps:
       - uses: "actions/checkout@v3"
+
+
 
       - name: "Set up environment"
         shell: "bash"
         run: "./setup_${{ runner.os }}.sh"
 
+
+
+      - uses: "actions/cache@v3"
+        id: "cache-boost"
+        with:
+          key: "boost-${{ env.boost-version }}"
+          path: "${{ runner.temp }}/boost"
+
       - uses: "egor-tensin/build-boost@v1"
+        id: "boost"
+        if: ${{ steps.cache-boost.outputs.cache-hit != 'true' }}
         with:
           configuration: "Debug"
-          directory: "${{ github.workspace }}/lib/boost"
-          version: "1.80.0"
+          directory: "${{ runner.temp }}/boost"
+          version: "${{ env.boost-version }}"
           libraries: "headers log system"
 
-      - name: "Build"
+      - name: "Set up boost"
         shell: "bash"
-        run: "./build_linux.sh"
+        run: "./setup_boost.sh ${{ steps.boost.outputs.root }}"
+
+
+
+      # - name: "Build"
+      #   shell: "bash"
+      #   run: "./build_linux.sh"
