@@ -17,7 +17,7 @@ if [ -x "$cp" ] ; then
     xxx="$(cygpath -u "$1")"
 fi
 echo "boost staging directory: $xxx"
-cd "$xxx" | exit 1
+cd "$xxx" || exit 1
 
 ls -l
 
