@@ -27,7 +27,7 @@ jobs:
           configuration: "Debug"
           directory: "${{ github.workspace }}/.boost"
           version: "1.80.0"
-          libraries: "log system"
+          libraries: "headers log system"
 
       - name: "Build"
         shell: "bash"
