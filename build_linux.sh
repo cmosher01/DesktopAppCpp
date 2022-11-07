@@ -24,21 +24,11 @@ ls -l /usr/lib/x86_64-linux-gnu/cmake
 # move staged boost (from github action build-boost in build.yaml workflow)
 # to well-known location
 if [ -d lib/boost ] ; then
-    echo "lib/boost==================================================="
-    ls -l lib/boost
-    echo "lib/boost/stage/x64/Debug========================="
-    ls -l lib/boost/stage/x64/Debug
-    echo "lib/boost/stage/x64/Debug/lib========================="
-    ls -l lib/boost/stage/x64/Debug/lib
-    echo "lib/boost/stage/x64/Debug/lib/cmake========================="
-    ls -l lib/boost/stage/x64/Debug/lib/cmake
-    echo "========================================================="
+    tree lib/boost
 
-    # mkdir -p /usr/lib/cmake
-    # mv -v lib/boost/stage/x64/Debug/lib/cmake/* /usr/lib/cmake/
-    # echo "/usr/lib/cmake==================================================="
-    # ls -l /usr/lib/cmake
-    # echo "================================================================="
+    mkdir -p lib/cmake
+    cp -rv lib/boost/stage/x64/Debug/lib/* lib
+    ls -lr lib
 fi
 
 mkdir -p tmp/cmake
