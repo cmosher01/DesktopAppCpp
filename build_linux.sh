@@ -4,7 +4,7 @@ set -e
 
 # move staged boost (from github action build-boost in build.yaml workflow)
 # to well-known location
-if [ -d .boost ] ; then
+if [ -d lib/boost ] ; then
     echo "lib/boost==================================================="
     ls -l lib/boost
     echo "lib/boost/stage/x64/Debug/lib/cmake========================="
