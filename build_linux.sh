@@ -1,8 +1,6 @@
 #!/bin/sh
 #set -e
 
-echo "MACHTYPE=$MACHTYPE"
-
 echo "====----------------------PATH----------------------===="
 echo "$PATH" | tr ':' '\0' | xargs -0 -n 1
 echo "====------------------------------------------------===="
@@ -10,8 +8,16 @@ echo "====------------------------------------------------===="
 
 echo "/usr/lib==================================================="
 ls -l /usr/lib
+echo "/usr/lib/cmake==================================================="
+ls -l /usr/lib/cmake
 echo "/usr/local/lib==================================================="
 ls -l /usr/local/lib
+echo "/usr/local/lib/cmake==================================================="
+ls -l /usr/local/lib/cmake
+echo "/usr/lib/x86_64-linux-gnu==================================================="
+ls -l /usr/lib/x86_64-linux-gnu
+echo "/usr/lib/x86_64-linux-gnu/cmake==================================================="
+ls -l /usr/lib/x86_64-linux-gnu/cmake
 
 
 
@@ -26,11 +32,12 @@ if [ -d lib/boost ] ; then
     ls -l lib/boost/stage/x64/Debug/lib/cmake/Boost-*
     echo "========================================================="
 
+    mkdir -p /usr/lib/cmake
+    mv -nv lib/boost/stage/x64/Debug/lib/cmake/* /usr/lib/cmake/
 
-    # mv -nv lib/boost/stage/x64/Debug/lib/cmake/Boost-* lib/boost/stage/x64/Debug/lib/cmake/boost
-    # ls -l lib/boost/stage/x64/Debug/lib/cmake
-    # ls -l lib/boost/stage/x64/Debug/lib/cmake/boost
-
+    echo "/usr/lib/cmake==================================================="
+    ls -l /usr/lib/cmake
+    echo "================================================================="
 fi
 
 mkdir -p tmp/cmake
