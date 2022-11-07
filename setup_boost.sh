@@ -8,8 +8,16 @@ fi
 root="$(pwd)"
 echo "github workspace: $root"
 
-echo "boost staging directory: $1"
-cd "$1" | exit 1
+xxx="$1"
+cp=$(which cygpath)
+if [ -x "$cp" ] ; then
+    cygpath --help
+    echo "using cygpath to convert path"
+    cygpath -u "$1"
+    xxx="$(cygpath -u "$1")"
+fi
+echo "boost staging directory: $xxx"
+cd "$xxx" | exit 1
 
 ls -l
 

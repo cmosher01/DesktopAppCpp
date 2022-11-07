@@ -36,7 +36,6 @@ jobs:
           path: "${{ runner.temp }}/boost"
 
       - uses: "egor-tensin/build-boost@v1"
-        id: "boost"
         if: ${{ steps.cache-boost.outputs.cache-hit != 'true' }}
         with:
           configuration: "Debug"
@@ -46,7 +45,7 @@ jobs:
 
       - name: "Set up boost"
         shell: "bash"
-        run: "./setup_boost.sh ${{ steps.boost.outputs.root }}"
+        run: "./setup_boost.sh '${{ runner.temp }}/boost'"
 
 
 
