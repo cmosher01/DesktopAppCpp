@@ -13,6 +13,7 @@ if(WIN32)
     target_compile_definitions(foobar PRIVATE BOOST_ALL_DYN_LINK)
     target_compile_definitions(foobar PRIVATE BOOST_ALL_NO_LIB)
 endif()
+message(STATUS "Boost_LIBRARIES=${Boost_LIBRARIES}")
 target_link_libraries(foobar PRIVATE ${Boost_LIBRARIES})
 
 find_package(wxWidgets REQUIRED COMPONENTS base core)
