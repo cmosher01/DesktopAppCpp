@@ -1,6 +1,4 @@
 #!/bin/sh
-set -x
-set -e
 
 cd /c/
 
