@@ -5,24 +5,17 @@ if [ $# -ne 1 ] ; then
     exit 1
 fi
 
-root="$(pwd)"
-echo "github workspace: $root"
+project_dir="$(pwd)"
+echo "github workspace: $project_dir"
 
-xxx="$1"
+boost_dir="$1"
 cp=$(which cygpath)
 if [ -x "$cp" ] ; then
-    cygpath --help
-    echo "using cygpath to convert path"
     cygpath -u "$1"
-    xxx="$(cygpath -u "$1")"
+    boost_dir="$(cygpath -u "$1")"
 fi
-echo "boost staging directory: $xxx"
-cd "$xxx" || exit 1
+echo "boost staging directory: $boost_dir"
 
-ls -l
-
-cp -r boost "$root/include/"
-cp -r stage/x64/Debug/lib/* "$root/lib/"
-
-ls -l "$root/include/"
-ls -l "$root/lib/"
+cd "$boost_dir" || exit 1
+cp -r boost "$project_dir/include/"
+cp -r stage/x64/Debug/lib/* "$project_dir/lib/"

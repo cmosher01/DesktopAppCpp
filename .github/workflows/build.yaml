@@ -49,6 +49,6 @@ jobs:
 
 
 
-      # - name: "Build"
-      #   shell: "bash"
-      #   run: "./build_linux.sh"
+      - name: "Build"
+        shell: "bash"
+        run: "./build_linux.sh"
