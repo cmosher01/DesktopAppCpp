@@ -8,10 +8,12 @@ add_executable(foobar ${sources})
 target_compile_features(foobar PRIVATE cxx_std_17)
 
 find_package(Boost REQUIRED COMPONENTS headers log)
-target_link_libraries(foobar ${Boost_LIBRARIES})
+target_link_libraries(foobar PRIVATE ${Boost_LIBRARIES})
+target_compile_definitions(foobar PRIVATE $<TARGET_PROPERTY:Boost::disable_autolinking, INTERFACE_COMPILE_DEFINITIONS>)
+target_compile_definitions(foobar PRIVATE $<TARGET_PROPERTY:Boost::dynamic_linking, INTERFACE_COMPILE_DEFINITIONS>)
 
 find_package(wxWidgets REQUIRED COMPONENTS base core)
 include(${wxWidgets_USE_FILE})
-target_link_libraries(foobar ${wxWidgets_LIBRARIES})
+target_link_libraries(foobar Private ${wxWidgets_LIBRARIES})
 
 install(TARGETS foobar RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
