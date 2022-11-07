@@ -1,6 +1,17 @@
 #!/bin/sh
-set -x
 set -e
+
+echo "====----------------------PATH----------------------===="
+echo "$PATH" | tr ':' '\0' | xargs -0 -n 1
+echo "====------------------------------------------------===="
+
+
+echo "/usr/lib==================================================="
+ls /usr/lib
+
+echo "/usr/lib/x86_64-linux-gnu/cmake==================================================="
+ls -l /usr/lib/x86_64-linux-gnu/cmake
+
 
 # move staged boost (from github action build-boost in build.yaml workflow)
 # to well-known location
@@ -14,9 +25,9 @@ if [ -d lib/boost ] ; then
     echo "========================================================="
 
 
-    mv -nv lib/boost/stage/x64/Debug/lib/cmake/Boost-* lib/boost/stage/x64/Debug/lib/cmake/boost
-    ls -l lib/boost/stage/x64/Debug/lib/cmake
-    ls -l lib/boost/stage/x64/Debug/lib/cmake/boost
+    # mv -nv lib/boost/stage/x64/Debug/lib/cmake/Boost-* lib/boost/stage/x64/Debug/lib/cmake/boost
+    # ls -l lib/boost/stage/x64/Debug/lib/cmake
+    # ls -l lib/boost/stage/x64/Debug/lib/cmake/boost
 
 fi
 
