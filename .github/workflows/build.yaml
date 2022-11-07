@@ -41,7 +41,7 @@ jobs:
           configuration: "Debug"
           directory: "${{ runner.temp }}/boost"
           version: "${{ env.boost-version }}"
-          libraries: "headers log system"
+          libraries: "headers log log_setup system"
 
       - name: "Set up boost"
         shell: "bash"
