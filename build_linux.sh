@@ -7,7 +7,7 @@ mkdir -p tmp/cmake
 cd tmp/cmake || exit 1
 rm -r *
 
-cmake ../.. || exit 1
+cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=TRUE ../.. || exit 1
 cmake --build .
 ret=$?
 
