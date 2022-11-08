@@ -8,12 +8,8 @@ add_executable(foobar ${sources})
 target_compile_features(foobar PRIVATE cxx_std_17)
 
 find_package(Boost REQUIRED COMPONENTS log)
-
-# TODO: why do we need to set these manually for msys?
-set_target_properties(foobar PROPERTIES COMPILE_DEFINITIONS BOOST_ALL_DYN_LINK)
-set_target_properties(foobar PROPERTIES COMPILE_DEFINITIONS BOOST_ALL_NO_LIB)
-set_target_properties(foobar PROPERTIES COMPILE_DEFINITIONS BOOST_USE_WINAPI_VERSION=0x0602)
-
+# TODO: try to have cmake set these compiler defs automatically (broken on MSYS builds?):
+target_compile_definitions(foobar PRIVATE BOOST_ALL_DYN_LINK BOOST_ALL_NO_LIB BOOST_LIB_DIAGNOSTIC)
 message(STATUS "Boost_LIBRARIES=${Boost_LIBRARIES}")
 target_link_libraries(foobar PRIVATE ${Boost_LIBRARIES})
 
