@@ -7,8 +7,9 @@ cmake ../.. || exit 1
 cmake --build .
 ret=$?
 
-cat src/foobar.vcxproj
 
-exit $ret
 #cpack
 #ls -l
+
+
+exit $ret

@@ -1,20 +1,24 @@
 #!/bin/sh
 
 if [ $# -ne 1 ] ; then
-    echo "usage: $0 path/to/boost/staging"
+    echo "usage: $0 path/to/boost/root"
     exit 1
 fi
 
-project_dir="$(pwd)"
-echo "github workspace: $project_dir"
-
-boost_dir="$1"
-cp=$(which cygpath)
+BOOST_ROOT="$1"
+cp="$(which cygpath)"
 if [ -x "$cp" ] ; then
-    boost_dir="$(cygpath -u "$1")"
+    BOOST_ROOT="$(cygpath -u "$BOOST_ROOT")"
 fi
-echo "boost staging directory: $boost_dir"
+echo "BOOST_ROOT=$BOOST_ROOT"
 
-cd "$boost_dir" || exit 1
-cp -r boost "$project_dir/include/"
-cp -r stage/x64/Debug/lib/* "$project_dir/lib/"
+PREFIX="$(pwd)"
+echo "PREFIX=$PREFIX"
+
+
+
+cd "$BOOST_ROOT" || exit 1
+cp -r boost "$PREFIX/include/"
+cp -r stage/x64/Debug/lib/* "$PREFIX/lib/"
+
+ls -lr "$PREFIX/lib/"
