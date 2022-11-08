@@ -14,8 +14,8 @@ set(CMAKE_VERBOSE_MAKEFILE TRUE)
 set(CMAKE_FIND_PACKAGE_PREFER_CONFIG TRUE)
 
 set(CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}" "/mingw64")
-include_directories("${CMAKE_SOURCE_DIR}/include")
-include_directories("/mingw64/include")
+include_directories(BEFORE "/mingw64/include")
+include_directories(BEFORE "${CMAKE_SOURCE_DIR}/include")
 
 
 
