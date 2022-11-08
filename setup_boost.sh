@@ -20,5 +20,3 @@ echo "PREFIX=$PREFIX"
 cd "$BOOST_ROOT" || exit 1
 cp -r boost "$PREFIX/include/"
 cp -r stage/x64/Debug/lib/* "$PREFIX/lib/"
-
-ls -lr "$PREFIX/lib/"
