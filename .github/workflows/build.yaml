@@ -41,27 +41,27 @@ jobs:
 
 
 
-      - name: "Set up environment"
-        run: "./setup_${{ runner.os }}.sh"
+      # - name: "Set up environment"
+      #   run: "./setup_${{ runner.os }}.sh"
 
 
 
-      - uses: "actions/cache@v3"
-        id: "cache-boost"
-        with:
-          key: "boost-${{ env.boost-version }}"
-          path: "${{ runner.temp }}/boost"
+      # - uses: "actions/cache@v3"
+      #   id: "cache-boost"
+      #   with:
+      #     key: "boost-${{ env.boost-version }}"
+      #     path: "${{ runner.temp }}/boost"
 
-      - uses: "egor-tensin/build-boost@v1"
-        if: ${{ steps.cache-boost.outputs.cache-hit != 'true' }}
-        with:
-          configuration: "Debug"
-          directory: "${{ runner.temp }}/boost"
-          version: "${{ env.boost-version }}"
-          libraries: "headers log log_setup system"
+      # - uses: "egor-tensin/build-boost@v1"
+      #   if: ${{ steps.cache-boost.outputs.cache-hit != 'true' }}
+      #   with:
+      #     configuration: "Debug"
+      #     directory: "${{ runner.temp }}/boost"
+      #     version: "${{ env.boost-version }}"
+      #     libraries: "headers log log_setup system"
 
-      - name: "Set up boost"
-        run: "./setup_boost.sh '${{ runner.temp }}/boost'"
+      # - name: "Set up boost"
+      #   run: "./setup_boost.sh '${{ runner.temp }}/boost'"
 
 
 
