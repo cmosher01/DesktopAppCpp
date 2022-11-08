@@ -8,7 +8,7 @@ add_executable(foobar ${sources})
 target_compile_features(foobar PRIVATE cxx_std_17)
 
 set(CMAKE_FIND_DEBUG_MODE TRUE) # TODO
-find_package(Boost REQUIRED COMPONENTS headers log log_setup)
+find_package(Boost REQUIRED COMPONENTS log)
 set(CMAKE_FIND_DEBUG_MODE FALSE) # TODO
 # if(WIN32)
 #     # TODO: see if anyone ever fixes whatever bug requires us to set these two:
