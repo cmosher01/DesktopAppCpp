@@ -9,6 +9,9 @@ BOOST_ROOT="$1"
 cp="$(which cygpath)"
 if [ -x "$cp" ] ; then
     BOOST_ROOT="$(cygpath -u "$BOOST_ROOT")"
+    ls -l /mingw64
+    ls -l /mingw64/lib
+    exit 0
 fi
 echo "BOOST_ROOT=$BOOST_ROOT"
 

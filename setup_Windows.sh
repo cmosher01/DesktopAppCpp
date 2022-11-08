@@ -1,5 +1,5 @@
 #!/bin/sh
-
+exit 0
 cd /c/
 
 vWx=3.2.1

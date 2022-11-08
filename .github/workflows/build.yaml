@@ -8,12 +8,19 @@ jobs:
   "build":
     strategy:
       matrix:
-        os:
-          - "ubuntu-22.04"
-          - "macos-12"
-          - "windows-latest"
+        include:
+          # - os: "ubuntu-22.04"
+          #   shell: "bash"
+          # - os: "macos-12"
+          #   shell: "bash"
+          - os: "windows-latest"
+            shell: "msys2 {0}"
 
     runs-on: "${{ matrix.os }}"
+
+    defaults:
+      run:
+        shell: "${{ matrix.shell }}"
 
     env:
       "boost-version": "1.80.0"
@@ -23,8 +30,16 @@ jobs:
 
 
 
+      - uses: "msys2/setup-msys2@v2"
+        if: ${{ runner.os == 'Windows' }}
+        with:
+          install: >-
+            mingw-w64-x86_64-boost
+            mingw-w64-x86_64-wxwidgets3.2-msw
+
+
+
       - name: "Set up environment"
-        shell: "bash"
         run: "./setup_${{ runner.os }}.sh"
 
 
@@ -44,11 +59,9 @@ jobs:
           libraries: "headers log log_setup system"
 
       - name: "Set up boost"
-        shell: "bash"
         run: "./setup_boost.sh '${{ runner.temp }}/boost'"
 
 
 
       - name: "Build"
-        shell: "bash"
         run: "./build_linux.sh"
