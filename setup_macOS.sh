@@ -1,3 +1,5 @@
 #!/bin/sh
 
-HOMEBREW_NO_AUTO_UPDATE=1 brew install wxwidgets
+export HOMEBREW_NO_AUTO_UPDATE=1
+
+brew install boost wxwidgets

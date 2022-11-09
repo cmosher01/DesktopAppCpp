@@ -26,12 +26,10 @@ endif()
 
 set(CMAKE_FIND_PACKAGE_PREFER_CONFIG TRUE)
 
-set(CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}")
-include_directories(BEFORE "${CMAKE_SOURCE_DIR}/include")
-
 include(GNUInstallDirs)
 
-
+set(CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}")
+include_directories(BEFORE "${CMAKE_SOURCE_DIR}/include")
 
 
 
@@ -52,8 +50,6 @@ pv(CMAKE_PREFIX_PATH)
 pv(CMAKE_PROGRAM_PATH)
 pv(CMAKE_LIBRARY_PATH)
 pv(CMAKE_INCLUDE_PATH)
-
-
 
 
 

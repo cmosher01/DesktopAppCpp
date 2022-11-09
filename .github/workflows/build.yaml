@@ -9,10 +9,10 @@ jobs:
     strategy:
       matrix:
         include:
-          # - os: "ubuntu-22.04"
-          #   shell: "bash"
-          # - os: "macos-12"
-          #   shell: "bash"
+          - os: "ubuntu-22.04"
+            shell: "bash"
+          - os: "macos-12"
+            shell: "bash"
           - os: "windows-latest"
             shell: "msys2 {0}"
 
@@ -43,19 +43,20 @@ jobs:
 
 
 
-      # - name: "Set up environment"
-      #   run: "./setup_${{ runner.os }}.sh"
+      - name: "Set up environment"
+        run: "./setup_${{ runner.os }}.sh"
 
 
 
       # - uses: "actions/cache@v3"
       #   id: "cache-boost"
+      #   if: ${{ runner.os != 'Windows' }}
       #   with:
       #     key: "boost-${{ env.boost-version }}"
       #     path: "${{ runner.temp }}/boost"
 
       # - uses: "egor-tensin/build-boost@v1"
-      #   if: ${{ steps.cache-boost.outputs.cache-hit != 'true' }}
+      #   if: ${{ runner.os != 'Windows' && steps.cache-boost.outputs.cache-hit != 'true' }}
       #   with:
       #     configuration: "Debug"
       #     directory: "${{ runner.temp }}/boost"
