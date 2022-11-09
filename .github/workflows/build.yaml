@@ -1,7 +1,7 @@
 ---
 on:
   push:
-    branches:
+    tags:
       - "*"
 
 jobs:
@@ -40,4 +40,11 @@ jobs:
         run: "./bin/setup_${{ runner.os }}.sh"
 
       - name: "Build"
-        run: "./bin/build_linux.sh"
+        run: "./bin/build.sh"
+
+      - uses: "softprops/action-gh-release@v1"
+        with:
+          files: |
+            tmp/cmake/*.sh
+            tmp/cmake/*.tar.*
+            tmp/cmake/*.exe
