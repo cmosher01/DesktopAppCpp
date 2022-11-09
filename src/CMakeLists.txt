@@ -10,7 +10,7 @@ target_compile_features(foobar PRIVATE cxx_std_17)
 set(Boost_DEBUG TRUE) # TODO
 find_package(Boost REQUIRED COMPONENTS log log_setup)
 
-# TODO: why are these needed for the MSYS build?
+# These settings must match those of the installed boost libraries:
 target_compile_definitions(foobar PRIVATE
     BOOST_ALL_DYN_LINK
     BOOST_ATOMIC_DYN_LINK
@@ -21,7 +21,8 @@ target_compile_definitions(foobar PRIVATE
     BOOST_REGEX_DYN_LINK
     BOOST_THREAD_DYN_LINK
     BOOST_ALL_NO_LIB
-    BOOST_LIB_DIAGNOSTIC)
+    BOOST_LIB_DIAGNOSTIC
+    BOOST_USE_WINAPI_VERSION=0x0600)
 
 message(STATUS "Boost_LIBRARIES=${Boost_LIBRARIES}")
 target_link_libraries(foobar PRIVATE ${Boost_LIBRARIES})
@@ -36,4 +37,3 @@ install(TARGETS foobar RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 # set(CMAKE_FIND_DEBUG_MODE TRUE) # TODO
 # set(CMAKE_FIND_DEBUG_MODE FALSE) # TODO
-
