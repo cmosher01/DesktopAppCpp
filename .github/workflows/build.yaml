@@ -22,13 +22,8 @@ jobs:
       run:
         shell: "${{ matrix.shell }}"
 
-    env:
-      "boost-version": "1.80.0"
-
     steps:
       - uses: "actions/checkout@v3"
-
-
 
       - uses: "msys2/setup-msys2@v2"
         if: ${{ runner.os == 'Windows' }}
@@ -41,32 +36,8 @@ jobs:
             boost:p
             wxwidgets3.2-msw:p
 
-
-
       - name: "Set up environment"
-        run: "./setup_${{ runner.os }}.sh"
-
-
-
-      # - uses: "actions/cache@v3"
-      #   id: "cache-boost"
-      #   if: ${{ runner.os != 'Windows' }}
-      #   with:
-      #     key: "boost-${{ env.boost-version }}"
-      #     path: "${{ runner.temp }}/boost"
-
-      # - uses: "egor-tensin/build-boost@v1"
-      #   if: ${{ runner.os != 'Windows' && steps.cache-boost.outputs.cache-hit != 'true' }}
-      #   with:
-      #     configuration: "Debug"
-      #     directory: "${{ runner.temp }}/boost"
-      #     version: "${{ env.boost-version }}"
-      #     libraries: "headers log log_setup system"
-
-      # - name: "Set up boost"
-      #   run: "./setup_boost.sh '${{ runner.temp }}/boost'"
-
-
+        run: "./bin/setup_${{ runner.os }}.sh"
 
       - name: "Build"
-        run: "./build_linux.sh"
+        run: "./bin/build_linux.sh"
