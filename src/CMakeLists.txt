@@ -33,7 +33,7 @@ target_link_libraries(${APP_NAME} PRIVATE ${wxWidgets_LIBRARIES})
 install(TARGETS ${APP_NAME} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 if (NOT CMAKE_SYSTEM_NAME STREQUAL "Linux")
     install(TARGETS ${APP_NAME} RUNTIME_DEPENDENCIES
-        DIRECTORIES "C:\\msys64\\mingw64\\bin"
+        DIRECTORIES "D:/a/_temp/msys64/mingw64/bin"
         PRE_EXCLUDE_REGEXES "api-ms-" "ext-ms-"
         POST_EXCLUDE_REGEXES ".*system32/.*\\.dll"
         FRAMEWORK DESTINATION "${APP_NAME}.app/Contents/Frameworks"
