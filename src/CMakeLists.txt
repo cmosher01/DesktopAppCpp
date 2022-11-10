@@ -30,4 +30,6 @@ include(${wxWidgets_USE_FILE})
 target_link_libraries(foobar PRIVATE ${wxWidgets_LIBRARIES})
 
 install(TARGETS foobar RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-install(TARGETS foobar RUNTIME_DEPENDENCIES)
+install(TARGETS foobar RUNTIME_DEPENDENCIES
+    FRAMEWORK DESTINATION "/Library/Frameworks"
+)
