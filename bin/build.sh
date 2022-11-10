@@ -14,7 +14,7 @@ case "$(uname -sr)" in
 esac
 
 cmake --trace-expand --install-prefix "$prefix" ../..
-cmake --trace-expand --build .
+cmake --build --trace-expand .
 
 cpack
 ls -l
