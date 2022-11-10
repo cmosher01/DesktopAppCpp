@@ -13,8 +13,8 @@ case "$(uname -sr)" in
     *) prefix="/usr/local" ;;
 esac
 
-cmake --install-prefix "$prefix" ../..
-cmake --build .
+cmake --trace-expand --install-prefix "$prefix" ../..
+cmake --trace-expand --build .
 
 cpack
 ls -l
