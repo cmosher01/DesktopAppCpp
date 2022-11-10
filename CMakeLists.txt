@@ -1,4 +1,7 @@
 cmake_minimum_required(VERSION 3.22.1)
+cmake_policy(SET CMP0048 NEW)
+
+
 
 macro(pv v)
     message(STATUS "${v}=${${v}}")
@@ -46,6 +49,7 @@ pv(CMAKE_INSTALL_PREFIX)
 
 pv(CMAKE_INSTALL_BINDIR)
 pv(CMAKE_INSTALL_FULL_BINDIR)
+pv(CMAKE_INSTALL_LIBDIR)
 pv(CMAKE_INSTALL_SYSCONFDIR)
 pv(CMAKE_INSTALL_FULL_SYSCONFDIR)
 
