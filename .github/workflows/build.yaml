@@ -9,10 +9,10 @@ jobs:
     strategy:
       matrix:
         include:
-          # - os: "ubuntu-22.04"
-          #   shell: "bash"
-          # - os: "macos-12"
-          #   shell: "bash"
+          - os: "ubuntu-22.04"
+            shell: "bash"
+          - os: "macos-12"
+            shell: "bash"
           - os: "windows-latest"
             shell: "msys2 {0}"
 

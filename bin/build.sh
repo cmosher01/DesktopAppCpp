@@ -2,8 +2,6 @@
 
 set -e
 
-uname -sr
-
 mkdir -p tmp/cmake
 cd tmp/cmake
 [ "$1" = "--clean" ] && rm -rf *
@@ -22,7 +20,7 @@ cmake --build .
 echo "::endgroup::"
 
 echo "::group::cpack"
-cpack --trace-expand
+cpack
 echo "::endgroup::"
 
 echo "::group::ls"
