@@ -5,7 +5,7 @@ FoobarFrame.cpp
 )
 add_executable(foobar ${sources})
 
-target_compile_features(foobar PRIVATE cxx_std_17)
+set(CMAKE_CXX_STANDARD 17)
 
 find_package(Boost REQUIRED COMPONENTS log log_setup)
 # These settings must match those of the installed boost libraries.
@@ -30,8 +30,4 @@ include(${wxWidgets_USE_FILE})
 target_link_libraries(foobar PRIVATE ${wxWidgets_LIBRARIES})
 
 install(TARGETS foobar RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-
-
-
-# set(CMAKE_FIND_DEBUG_MODE TRUE) # TODO
-# set(CMAKE_FIND_DEBUG_MODE FALSE) # TODO
+install(TARGETS foobar RUNTIME_DEPENDENCIES)
