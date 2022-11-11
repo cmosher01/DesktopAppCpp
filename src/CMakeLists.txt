@@ -8,7 +8,7 @@ add_executable(${APP_NAME} ${sources})
 
 set(CMAKE_CXX_STANDARD 17)
 
-find_package(Boost REQUIRED COMPONENTS log log_setup)
+find_package(Boost REQUIRED COMPONENTS log filesystem)
 # These settings must match those of the installed boost libraries.
 # Use objdump to check the "namespace", such as "v2_mt_nt6"
 # https://www.boost.org/doc/libs/master/libs/log/doc/html/log/rationale/namespace_mangling.html
