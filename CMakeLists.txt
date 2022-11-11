@@ -67,4 +67,21 @@ pv(CMAKE_INCLUDE_PATH)
 
 add_subdirectory(src)
 
+
+
+
+set(CPACK_PACKAGE_VENDOR "mosher.mine.nu")
+set(CPACK_PACKAGE_CONTACT "cmosher01@gmail.com")
+
+set(CPACK_GENERATOR ZIP TGZ 7Z)
+if(WIN32)
+    set(CPACK_GENERATOR ${CPACK_GENERATOR} NSIS)
+elseif(APPLE)
+    set(CPACK_GENERATOR ${CPACK_GENERATOR} DragNDrop)
+else()
+    set(CPACK_GENERATOR ${CPACK_GENERATOR} DEB)
+endif()
+
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libboost-dev, libwxgtk3.0-gtk3-0v5")
+
 include(CPack)
