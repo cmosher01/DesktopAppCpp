@@ -45,6 +45,9 @@ jobs:
       - uses: "softprops/action-gh-release@v1"
         with:
           files: |
-            tmp/cmake/*.sh
-            tmp/cmake/*.tar.*
+            tmp/cmake/*.zip
+            tmp/cmake/*.tar.gz
+            tmp/cmake/*.7z
+            tmp/cmake/*.deb
+            tmp/cmake/*.dmg
             tmp/cmake/*.exe

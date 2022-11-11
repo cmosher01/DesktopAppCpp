@@ -7,7 +7,7 @@
 #include <boost/log/utility/setup/common_attributes.hpp>
 #include <boost/log/sources/severity_feature.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
-#include <filesystem>
+#include <boost/filesystem.hpp>
 #include <iostream>
 #include <algorithm>
 #include <string>
@@ -24,7 +24,7 @@ bool FoobarApp::OnInit()
     // wxStandardPaths::Get().SetInstallPrefix("/opt");
     // wxStandardPaths::Get().SetInstallPrefix("/opt/foobar");
     // wxStandardPaths::Get().SetInstallPrefix("/opt/nu.mine.mosher");
-    wxStandardPaths::Get().SetInstallPrefix("/opt/nu.mine.mosher/foobar");
+    // wxStandardPaths::Get().SetInstallPrefix("/opt/nu.mine.mosher/foobar");
 
 #ifdef __WXMSW__
     wxStandardPaths::Get().DontIgnoreAppSubDir();
@@ -34,10 +34,10 @@ bool FoobarApp::OnInit()
 
 
     const wxString dirLog = wxStandardPaths::Get().GetUserLocalDataDir();
-    std::string ts = to_iso_string(boost::posix_time::second_clock::universal_time());
-    std::filesystem::path logfile;
+    const std::string ts = to_iso_string(boost::posix_time::second_clock::universal_time());
+    boost::filesystem::path logfile;
     logfile += dirLog.ToStdString();
-    std::filesystem::create_directories(logfile);
+    boost::filesystem::create_directories(logfile);
     logfile /= ts + ".log";
     std::cout << logfile << std::endl;
     boost::log::add_file_log(boost::log::keywords::file_name = logfile, boost::log::keywords::auto_flush = true);
