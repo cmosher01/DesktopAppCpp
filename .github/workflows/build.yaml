@@ -29,7 +29,6 @@ jobs:
         if: ${{ runner.os == 'Windows' }}
         with:
           msystem: "msys"
-          update: true
           pacboy: >-
             tree
 
