@@ -40,13 +40,15 @@ endif()
 
 
 if(WIN32)
-    set(CMAKE_INSTALL_PREFIX "C:\\Program Files\\")
+    set(CMAKE_INSTALL_PREFIX "C:/Program Files")
+    unset(CPACK_PACKAGING_INSTALL_PREFIX)
 elseif(APPLE)
-    #TODO: set(CMAKE_INSTALL_PREFIX "/Applications")
+    unset(CMAKE_INSTALL_PREFIX)
+    unset(CPACK_PACKAGING_INSTALL_PREFIX)
 else()
     set(CMAKE_INSTALL_PREFIX "/opt/${PROJECT_NAME}")
+    set(CPACK_PACKAGING_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 endif()
-set(CPACK_PACKAGING_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
 include(GNUInstallDirs)
 
@@ -55,6 +57,7 @@ include_directories(BEFORE "${CMAKE_SOURCE_DIR}/include")
 
 
 
+pv(CMAKE_GENERATOR)
 pv(CMAKE_SYSTEM)
 pv(CMAKE_SYSTEM_NAME)
 
@@ -88,7 +91,7 @@ set(CPACK_PACKAGE_VENDOR "nu.mine.mosher")
 set(CPACK_PACKAGE_CONTACT "cmosher01@gmail.com")
 
 
-#set(CPACK_GENERATOR ZIP TGZ 7Z)
+set(CPACK_GENERATOR ZIP TGZ 7Z)
 if(WIN32)
     set(CPACK_GENERATOR ${CPACK_GENERATOR} NSIS)
 elseif(APPLE)
