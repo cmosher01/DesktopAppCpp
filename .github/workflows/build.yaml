@@ -28,6 +28,13 @@ jobs:
       - uses: "msys2/setup-msys2@v2"
         if: ${{ runner.os == 'Windows' }}
         with:
+          msystem: "msys"
+          pacboy: >-
+            tree
+
+      - uses: "msys2/setup-msys2@v2"
+        if: ${{ runner.os == 'Windows' }}
+        with:
           update: true
           pacboy: >-
             msys::tree
