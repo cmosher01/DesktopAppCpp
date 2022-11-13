@@ -37,7 +37,6 @@ jobs:
         with:
           update: true
           pacboy: >-
-            msys::tree
             toolchain:p
             cmake:p
             ninja:p
