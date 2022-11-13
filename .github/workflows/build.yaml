@@ -30,6 +30,7 @@ jobs:
         with:
           update: true
           pacboy: >-
+            tree
             toolchain:p
             cmake:p
             ninja:p
