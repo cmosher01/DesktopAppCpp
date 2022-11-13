@@ -4,9 +4,12 @@ Foobar.cpp
 FoobarApp.cpp
 FoobarFrame.cpp
 )
-add_executable(${APP_NAME} ${sources})
+set(ICON_FILE ${CMAKE_SOURCE_DIR}/${APP_NAME}.png)
+add_executable(${APP_NAME} MACOSX_BUNDLE ${sources} ${ICON_FILE})
 
 set(CMAKE_CXX_STANDARD 17)
+
+
 
 find_package(Boost REQUIRED COMPONENTS log filesystem)
 # These settings must match those of the installed boost libraries.
@@ -30,12 +33,27 @@ find_package(wxWidgets REQUIRED COMPONENTS base core)
 include(${wxWidgets_USE_FILE})
 target_link_libraries(${APP_NAME} PRIVATE ${wxWidgets_LIBRARIES})
 
-install(TARGETS ${APP_NAME} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-if (NOT CMAKE_SYSTEM_NAME STREQUAL "Linux")
+
+
+set_target_properties(${APP_NAME} PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${PROJECT_BINARY_DIR}/Info.plist)
+set_source_files_properties(${ICON_FILE} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
+
+
+
+install(TARGETS ${APP_NAME}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    BUNDLE DESTINATION .)
+
+include(InstallRequiredSystemLibraries)
+
+if(APPLE)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/FixBundle.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/FixBundle.cmake @ONLY)
+    install(SCRIPT ${CMAKE_CURRENT_BINARY_DIR}/FixBundle.cmake)
+endif()
+
+if (WIN32)
     install(TARGETS ${APP_NAME} RUNTIME_DEPENDENCIES
         DIRECTORIES ${CMAKE_SYSTEM_LIBRARY_PATH}
         PRE_EXCLUDE_REGEXES "api-ms-" "ext-ms-"
-        POST_EXCLUDE_REGEXES ".*system32/.*\\.dll"
-        FRAMEWORK DESTINATION "${APP_NAME}.app/Contents/Frameworks"
-    )
+        POST_EXCLUDE_REGEXES ".*system32/.*\\.dll")
 endif()

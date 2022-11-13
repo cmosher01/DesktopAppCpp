@@ -1,5 +1,11 @@
 cmake_minimum_required(VERSION 3.22.1)
-cmake_policy(SET CMP0048 NEW)
+
+set(CMAKE_VERBOSE_MAKEFILE TRUE CACHE BOOL "Echo make commands.")
+
+set(CMAKE_BUILD_TYPE RelWithDebInfo)
+set(CMAKE_FIND_PACKAGE_PREFER_CONFIG TRUE)
+
+
 
 
 
@@ -9,18 +15,19 @@ endmacro()
 
 
 
-
-
-project(foobar
-VERSION 0.0.1
-DESCRIPTION "A desktop application example"
-HOMEPAGE_URL https://github.com/cmosher01/DesktopAppCpp
-LANGUAGES CXX
-)
-
+project(
+    foobar
+        VERSION 0.0.1
+        DESCRIPTION "A desktop application example"
+        HOMEPAGE_URL https://github.com/cmosher01/DesktopAppCpp
+        LANGUAGES CXX)
 
 
 
+
+
+pv(CMAKE_SOURCE_DIR)
+pv(CMAKE_BINARY_DIR)
 
 pv(PROJECT_SOURCE_DIR)
 pv(PROJECT_BINARY_DIR)
@@ -32,7 +39,6 @@ endif()
 
 
 
-set(CMAKE_FIND_PACKAGE_PREFER_CONFIG TRUE)
 
 include(GNUInstallDirs)
 
@@ -69,19 +75,20 @@ add_subdirectory(src)
 
 
 
-
-set(CPACK_PACKAGE_VENDOR "mosher.mine.nu")
+set(PROJECT_FOURCC epl2)
+set(CPACK_PACKAGE_VENDOR "nu.mine.mosher")
 set(CPACK_PACKAGE_CONTACT "cmosher01@gmail.com")
 
 set(CPACK_GENERATOR ZIP TGZ 7Z)
 if(WIN32)
     set(CPACK_GENERATOR ${CPACK_GENERATOR} NSIS)
 elseif(APPLE)
+    set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}-${PROJECT_VERSION}-macOS")
+    configure_file(${PROJECT_SOURCE_DIR}/Info.plist.in ${PROJECT_BINARY_DIR}/Info.plist)
     set(CPACK_GENERATOR ${CPACK_GENERATOR} DragNDrop)
 else()
+    set(CPACK_DEBIAN_PACKAGE_DEPENDS "libboost-dev, libwxgtk3.0-gtk3-0v5")
     set(CPACK_GENERATOR ${CPACK_GENERATOR} DEB)
 endif()
-
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "libboost-dev, libwxgtk3.0-gtk3-0v5")
 
 include(CPack)

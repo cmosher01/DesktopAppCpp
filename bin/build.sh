@@ -4,11 +4,11 @@ set -e
 
 mkdir -p tmp/cmake
 cd tmp/cmake
-[ "$1" = "--clean" ] && rm -rf *
+[ "$1" = "--clean" ] && rm -rf -- *
 
 case "$(uname -sr)" in
     MINGW*|MSYS*) prefix="C:/Program Files/" ;;
-    *) prefix="/usr/local" ;;
+    *) prefix="/opt" ;;
 esac
 
 echo "::group::cmake"
