@@ -40,7 +40,7 @@ endif()
 
 
 if(WIN32)
-    set(CMAKE_INSTALL_PREFIX "C:/Program Files")
+    set(CMAKE_INSTALL_PREFIX "C:/Program Files/${PROJECT_NAME}")
     unset(CPACK_PACKAGING_INSTALL_PREFIX)
 elseif(APPLE)
     unset(CMAKE_INSTALL_PREFIX)
@@ -58,6 +58,9 @@ include_directories(BEFORE "${CMAKE_SOURCE_DIR}/include")
 
 
 pv(CMAKE_GENERATOR)
+pv(CMAKE_GENERATOR_PLATFORM)
+pv(CMAKE_SIZEOF_VOID_P)
+
 pv(CMAKE_SYSTEM)
 pv(CMAKE_SYSTEM_NAME)
 

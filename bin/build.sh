@@ -2,9 +2,13 @@
 
 set -e
 
-mkdir -p tmp/cmake
-cd tmp/cmake
-[ "$1" = "--clean" ] && rm -rf -- *
+if [ -e "$1/CMakeCache.txt" ] ; then
+    builddir="$1"
+else
+    mkdir -p tmp
+    builddir=$(mktemp -d -p tmp)
+fi
+cd $builddir
 
 echo "::group::cmake"
 cmake ../..
