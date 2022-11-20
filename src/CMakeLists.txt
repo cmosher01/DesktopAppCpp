@@ -49,11 +49,12 @@ include(InstallRequiredSystemLibraries)
 if(APPLE)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/FixBundle.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/FixBundle.cmake @ONLY)
     install(SCRIPT ${CMAKE_CURRENT_BINARY_DIR}/FixBundle.cmake)
-endif()
-
-if (WIN32)
+elseif(WIN32)
     install(TARGETS ${APP_NAME} RUNTIME_DEPENDENCIES
         DIRECTORIES ${CMAKE_SYSTEM_LIBRARY_PATH}
         PRE_EXCLUDE_REGEXES "api-ms-" "ext-ms-"
         POST_EXCLUDE_REGEXES ".*system32/.*\\.dll")
+else()
+    install(TARGETS ${APP_NAME} RUNTIME_DEPENDENCIES
+        DIRECTORIES ${CMAKE_SYSTEM_LIBRARY_PATH})
 endif()

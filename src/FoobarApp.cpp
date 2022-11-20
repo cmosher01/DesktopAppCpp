@@ -1,89 +1,82 @@
 #include "FoobarApp.h"
 #include "FoobarFrame.h"
+#include <wx/fileconf.h>
 #include <wx/stdpaths.h>
 #include <boost/log/core.hpp>
 #include <boost/log/trivial.hpp>
 #include <boost/log/utility/setup/file.hpp>
 #include <boost/log/utility/setup/common_attributes.hpp>
 #include <boost/log/sources/severity_feature.hpp>
+#include <boost/log/sources/record_ostream.hpp>
+#include <boost/log/expressions.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include <iostream>
 #include <algorithm>
 #include <string>
 
 wxIMPLEMENT_APP_NO_MAIN(FoobarApp);
 
-#define StdDir(n) BOOST_LOG_TRIVIAL(info) << "    " #n " dir: " << wxStandardPaths::Get().Get##n##Dir()
-#define StdUserDir(n) BOOST_LOG_TRIVIAL(info) << "    User " #n " dir: " << wxStandardPaths::Get().GetUserDir(wxStandardPaths::Dir_##n)
-
 bool FoobarApp::OnInit()
 {
-    SetVendorName("nu.mine.mosher");
+    const std::filesystem::path idApp("nu.mine.mosher.foobar");
 
-    // wxStandardPaths::Get().SetInstallPrefix("/opt");
-    // wxStandardPaths::Get().SetInstallPrefix("/opt/foobar");
-    // wxStandardPaths::Get().SetInstallPrefix("/opt/nu.mine.mosher");
-    // wxStandardPaths::Get().SetInstallPrefix("/opt/nu.mine.mosher/foobar");
-
-#ifdef __WXMSW__
-    wxStandardPaths::Get().DontIgnoreAppSubDir();
-#endif
-    // wxStandardPaths::Get().SetFileLayout(wxStandardPaths::FileLayout_XDG);
-    wxStandardPaths::Get().UseAppInfo(wxStandardPaths::AppInfo_AppName | wxStandardPaths::AppInfo_VendorName);
+    wxStandardPaths::Get().SetFileLayout(wxStandardPaths::FileLayout_XDG);
 
 
-    const wxString dirLog = wxStandardPaths::Get().GetUserLocalDataDir();
+
+//    wxString confValue;
+//    if (conf.Read("confItem", &confValue)) {
+//        std::cout << "Found confItem" << std::endl;
+//    } else {
+//        std::cout << "Could not find confItem" << std::endl;
+//        confValue = "defaultValue";
+//        conf.Write("confItem", confValue);
+//    }
+//
+//    std::cout << "confValue: " << confValue << std::endl << std::flush;
+
+
+
+
+
+    wxStandardPaths stdpaths = wxStandardPaths::Get();
+
+    std::filesystem::path logfile = std::filesystem::path(stdpaths.GetUserDir(wxStandardPaths::Dir_Cache).t_str()) / idApp / "log";
+    std::filesystem::create_directories(logfile);
+    logfile = std::filesystem::canonical(logfile);
+
     const std::string ts = to_iso_string(boost::posix_time::second_clock::universal_time());
-    boost::filesystem::path logfile;
-    logfile += dirLog.ToStdString();
-    boost::filesystem::create_directories(logfile);
     logfile /= ts + ".log";
-    std::cout << logfile << std::endl;
-    boost::log::add_file_log(boost::log::keywords::file_name = logfile, boost::log::keywords::auto_flush = true);
+    std::cout << "log file: " << logfile << std::endl;
+
+
+
+    boost::log::add_file_log(
+            boost::log::keywords::file_name = logfile,
+            boost::log::keywords::auto_flush = true,
+            boost::log::keywords::format = (
+                boost::log::expressions::stream <<
+                    to_iso_extended_string(boost::posix_time::microsec_clock::universal_time()) << "Z " <<
+                    boost::log::trivial::severity << " " <<
+                    boost::log::expressions::message
+            ));
     boost::log::add_common_attributes();
 
-    BOOST_LOG_TRIVIAL(info) << "App name: " << GetAppName();
-    BOOST_LOG_TRIVIAL(info) << "App display name: " << GetAppDisplayName();
-    BOOST_LOG_TRIVIAL(info) << "Vendor name: " << GetVendorName();
-    BOOST_LOG_TRIVIAL(info) << "Vendor display name: " << GetVendorDisplayName();
-    BOOST_LOG_TRIVIAL(info) << "Class name: " << GetClassName();
+    const std::filesystem::path exe = std::filesystem::path(stdpaths.GetExecutablePath().t_str());
+    BOOST_LOG_TRIVIAL(info) << "Executable path: " << exe;
 
+    const std::filesystem::path conf = std::filesystem::path(stdpaths.GetUserConfigDir().t_str()) / idApp;
+    BOOST_LOG_TRIVIAL(info) << "Configuration file path: " << conf;
 
-#ifdef __WXGTK__
-    BOOST_LOG_TRIVIAL(info) << "Install prefix: " << wxStandardPaths::Get().GetInstallPrefix();
-#endif
-    BOOST_LOG_TRIVIAL(info) << "Executable path: " << wxStandardPaths::Get().GetExecutablePath();
-    // BOOST_LOG_TRIVIAL(info) << "test config file name: " << wxStandardPaths::Get().MakeConfigFileName(wxString("test"));
+    const std::filesystem::path docs = std::filesystem::path(stdpaths.GetAppDocumentsDir().t_str()) / idApp;
+    BOOST_LOG_TRIVIAL(info) << "User documents path: " << docs;
 
-    BOOST_LOG_TRIVIAL(info) << "Standard directories";
-    StdDir(Plugins);
-    StdDir(Resources);
-    BOOST_LOG_TRIVIAL(info) << "    LocalizedResources (en) dir: " << wxStandardPaths::Get().GetLocalizedResourcesDir(wxString("en"), wxStandardPaths::ResourceCat_None);
-    StdDir(Config);
-    StdDir(UserConfig);
-
-    // StdUserDir(Cache);
-
-    StdDir(Data);
-    StdDir(LocalData);
-    StdDir(UserData);
-    StdDir(UserLocalData);
-
-    StdDir(AppDocuments);
-    //StdDir(Documents); same as StdUserDir(Documents)
-    // StdUserDir(Documents);
-    // StdUserDir(Desktop);
-    // StdUserDir(Downloads);
-    // StdUserDir(Music);
-    // StdUserDir(Pictures);
-    // StdUserDir(Videos);
-
-    StdDir(Temp);
 
 
 
     FoobarFrame *frame = new FoobarFrame();
+    frame->SetLogFile((std::string&)logfile);
     frame->Show(true);
     return true;
 }

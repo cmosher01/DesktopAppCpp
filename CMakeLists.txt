@@ -102,7 +102,6 @@ elseif(APPLE)
     configure_file(${PROJECT_SOURCE_DIR}/Info.plist.in ${PROJECT_BINARY_DIR}/Info.plist)
     set(CPACK_GENERATOR ${CPACK_GENERATOR} DragNDrop)
 else()
-    set(CPACK_DEBIAN_PACKAGE_DEPENDS "libboost-dev, libwxgtk3.0-gtk3-0v5")
     set(CPACK_GENERATOR ${CPACK_GENERATOR} DEB)
 endif()
 

@@ -1,4 +1,5 @@
 #include "FoobarFrame.h"
+#include <wx/persist/toplevel.h>
 
 enum {
     ID_Hello = 1
@@ -25,6 +26,9 @@ FoobarFrame::FoobarFrame() : wxFrame(nullptr, wxID_ANY, "Hello World") {
     Bind(wxEVT_MENU, &FoobarFrame::OnHello, this, ID_Hello);
     Bind(wxEVT_MENU, &FoobarFrame::OnAbout, this, wxID_ABOUT);
     Bind(wxEVT_MENU, &FoobarFrame::OnExit, this, wxID_EXIT);
+
+    // TODO: how to put this into my config file? Derive from wxPersistenceManager?
+    wxPersistentRegisterAndRestore(this, "main");
 }
 
 void FoobarFrame::OnExit(wxCommandEvent& event) {
@@ -32,12 +36,16 @@ void FoobarFrame::OnExit(wxCommandEvent& event) {
 }
 
 void FoobarFrame::OnAbout(wxCommandEvent& event) {
-    wxMessageBox(
-        "This is a wxWidgets Hello World example",
-        "About Hello World",
-        wxOK | wxICON_INFORMATION);
+    std::string msg;
+    msg = "Current log file:\n";
+    msg += this->logfile;
+    wxMessageBox(msg, "About Hello World", wxOK | wxICON_INFORMATION);
 }
 
 void FoobarFrame::OnHello(wxCommandEvent& event) {
     wxLogMessage("Hello world from wxWidgets!");
+}
+
+void FoobarFrame::SetLogFile(std::string logfile) {
+    this->logfile = logfile;
 }

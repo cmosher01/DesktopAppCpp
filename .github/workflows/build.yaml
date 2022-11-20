@@ -25,6 +25,12 @@ jobs:
     steps:
       - uses: "actions/checkout@v3"
 
+      - run: |
+          set -x
+          git describe --dirty --broken --always --abbrev=0
+          echo "${{ github.ref.name }}"
+          echo "${{ github.ref }}"
+
       - uses: "msys2/setup-msys2@v2"
         if: ${{ runner.os == 'Windows' }}
         with:
