@@ -1,3 +1,6 @@
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 set(APP_NAME foobar)
 set(sources
 Foobar.cpp
@@ -5,9 +8,10 @@ FoobarApp.cpp
 FoobarFrame.cpp
 )
 set(ICON_FILE ${CMAKE_SOURCE_DIR}/${APP_NAME}.png)
-add_executable(${APP_NAME} MACOSX_BUNDLE ${sources} ${ICON_FILE})
 
-set(CMAKE_CXX_STANDARD 17)
+
+
+add_executable(${APP_NAME} MACOSX_BUNDLE ${sources} ${ICON_FILE})
 
 
 

@@ -18,6 +18,10 @@ echo "::group::cmake --build"
 cmake --build .
 echo "::endgroup::"
 
+if [ "$1" = "-n" ] ; then
+	exit 0
+fi
+
 echo "::group::cpack"
 cpack
 echo "::endgroup::"
