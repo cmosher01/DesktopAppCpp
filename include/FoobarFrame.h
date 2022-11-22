@@ -12,12 +12,15 @@ class FoobarFrame : public wxFrame {
 public:
     FoobarFrame();
 
-    void SetLogFile(std::string logfile);
-    
+    void DoInit(std::string logfile);
+
 private:
-    void OnHello(wxCommandEvent& event);
     void OnExit(wxCommandEvent& event);
+    void OnPreferences(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
+
+    void InitMenuBar();
+    void InitStatusBar();
 
     std::string logfile;
 };
