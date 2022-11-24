@@ -41,18 +41,14 @@ find_package(wxWidgets REQUIRED COMPONENTS base core xrc)
 include(${wxWidgets_USE_FILE})
 target_link_libraries(${APP_NAME} PRIVATE ${wxWidgets_LIBRARIES})
 
-
-
-set_target_properties(${APP_NAME} PROPERTIES MACOSX_BUNDLE TRUE RESOURCE ${resources})
-set_target_properties(${APP_NAME} PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${PROJECT_BINARY_DIR}/Info.plist)
-set_source_files_properties(${icon_file} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
-
-
-
-
 include(InstallRequiredSystemLibraries)
 
+
+
 if(APPLE)
+    set_target_properties(${APP_NAME} PROPERTIES MACOSX_BUNDLE TRUE RESOURCE ${resources})
+    set_target_properties(${APP_NAME} PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${PROJECT_BINARY_DIR}/Info.plist)
+    set_source_files_properties(${icon_file} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
     install(TARGETS ${APP_NAME}
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
         BUNDLE DESTINATION .)
@@ -62,7 +58,7 @@ elseif(WIN32)
     install(TARGETS ${APP_NAME}
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
         BUNDLE DESTINATION .
-        RESOURCE DESTINATION .)
+        RESOURCE DESTINATION share/Resources)
     install(TARGETS ${APP_NAME} RUNTIME_DEPENDENCIES
         DIRECTORIES ${CMAKE_SYSTEM_LIBRARY_PATH}
         PRE_EXCLUDE_REGEXES "api-ms-" "ext-ms-"

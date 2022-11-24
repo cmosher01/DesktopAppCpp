@@ -17,7 +17,7 @@ endmacro()
 
 project(
     foobar
-        VERSION 0.0.1
+        VERSION 0.0.2
         DESCRIPTION "A desktop application example"
         HOMEPAGE_URL https://github.com/cmosher01/DesktopAppCpp
         LANGUAGES CXX)
