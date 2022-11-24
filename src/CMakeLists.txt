@@ -45,8 +45,8 @@ include(InstallRequiredSystemLibraries)
 
 
 
+set_target_properties(${APP_NAME} PROPERTIES MACOSX_BUNDLE TRUE RESOURCE ${resources})
 if(APPLE)
-    set_target_properties(${APP_NAME} PROPERTIES MACOSX_BUNDLE TRUE RESOURCE ${resources})
     set_target_properties(${APP_NAME} PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${PROJECT_BINARY_DIR}/Info.plist)
     set_source_files_properties(${icon_file} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
     install(TARGETS ${APP_NAME}
