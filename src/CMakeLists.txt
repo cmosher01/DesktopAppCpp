@@ -55,8 +55,7 @@ include(InstallRequiredSystemLibraries)
 if(APPLE)
     install(TARGETS ${APP_NAME}
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-        BUNDLE DESTINATION .
-        RESOURCE DESTINATION Resources)
+        BUNDLE DESTINATION .)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/FixBundle.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/FixBundle.cmake @ONLY)
     install(SCRIPT ${CMAKE_CURRENT_BINARY_DIR}/FixBundle.cmake)
 elseif(WIN32)
