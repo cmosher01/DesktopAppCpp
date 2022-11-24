@@ -51,10 +51,10 @@ void FoobarFrame::OnExit(wxCommandEvent& event) {
 }
 
 void FoobarFrame::OnAbout(wxCommandEvent& event) {
-    std::string msg;
-    msg = "Current log file:\n";
-    msg += wxGetApp().GetLogFile().c_str();
-    wxMessageBox(msg, "About Hello World", wxOK | wxICON_INFORMATION);
+//    std::string msg;
+//    msg = "Current log file:\n";
+//    msg += wxGetApp().GetLogFile().c_str();
+    wxMessageBox("TODO", "About Hello World", wxOK | wxICON_INFORMATION);
 }
 
 void FoobarFrame::OnPreferences(wxCommandEvent& event) {
