@@ -29,7 +29,7 @@
 								<option>0</option>
 								<flag>wxALIGN_BOTTOM|wxALL</flag>
 								<border>0</border>
-								<object class="wxButton" name="m_btnClose">
+								<object class="wxButton" name="wxID_OK">
 									<label>Close</label>
 									<default>1</default>
 									<auth_needed>0</auth_needed>
