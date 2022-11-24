@@ -1,4 +1,6 @@
 #include "FoobarFrame.h"
+#include "FoobarApp.h"
+#include "PreferencesDialog.h"
 #include <wx/persist/toplevel.h>
 
 
@@ -8,8 +10,7 @@ FoobarFrame::FoobarFrame() : wxFrame(nullptr, wxID_ANY, "Foobar") {
 
 
 
-void FoobarFrame::DoInit(std::string logfile) {
-    this->logfile = logfile;
+void FoobarFrame::DoInit() {
     InitMenuBar();
     InitStatusBar();
 
@@ -52,10 +53,12 @@ void FoobarFrame::OnExit(wxCommandEvent& event) {
 void FoobarFrame::OnAbout(wxCommandEvent& event) {
     std::string msg;
     msg = "Current log file:\n";
-    msg += this->logfile;
+    msg += wxGetApp().GetLogFile().c_str();
     wxMessageBox(msg, "About Hello World", wxOK | wxICON_INFORMATION);
 }
 
 void FoobarFrame::OnPreferences(wxCommandEvent& event) {
-    wxLogMessage("Hello world from wxWidgets!");
+    PreferencesDialog *dlg = new PreferencesDialog(this);
+    dlg->OnInit();
+    dlg->ShowModal();
 }

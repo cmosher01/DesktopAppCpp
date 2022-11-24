@@ -6,12 +6,16 @@ set(sources
 Foobar.cpp
 FoobarApp.cpp
 FoobarFrame.cpp
+PreferencesDialog.cpp
 )
-set(ICON_FILE ${CMAKE_SOURCE_DIR}/${APP_NAME}.png)
+set(resources
+../share/Resources/Foobar.xrc
+)
+set(icon_file ${CMAKE_SOURCE_DIR}/${APP_NAME}.png)
 
 
 
-add_executable(${APP_NAME} MACOSX_BUNDLE ${sources} ${ICON_FILE})
+add_executable(${APP_NAME} MACOSX_BUNDLE ${sources} ${icon_file} ${resources})
 
 
 
@@ -33,32 +37,39 @@ target_compile_definitions(${APP_NAME} PRIVATE
     BOOST_USE_WINAPI_VERSION=0x0600)
 target_link_libraries(${APP_NAME} PRIVATE ${Boost_LIBRARIES})
 
-find_package(wxWidgets REQUIRED COMPONENTS base core)
+find_package(wxWidgets REQUIRED COMPONENTS base core xrc)
 include(${wxWidgets_USE_FILE})
 target_link_libraries(${APP_NAME} PRIVATE ${wxWidgets_LIBRARIES})
 
 
 
+set_target_properties(${APP_NAME} PROPERTIES MACOSX_BUNDLE TRUE RESOURCE ${resources})
 set_target_properties(${APP_NAME} PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${PROJECT_BINARY_DIR}/Info.plist)
-set_source_files_properties(${ICON_FILE} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
+set_source_files_properties(${icon_file} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
 
 
 
-install(TARGETS ${APP_NAME}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-    BUNDLE DESTINATION .)
 
 include(InstallRequiredSystemLibraries)
 
 if(APPLE)
+    install(TARGETS ${APP_NAME}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        BUNDLE DESTINATION .
+        RESOURCE DESTINATION Resources)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/FixBundle.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/FixBundle.cmake @ONLY)
     install(SCRIPT ${CMAKE_CURRENT_BINARY_DIR}/FixBundle.cmake)
 elseif(WIN32)
+    install(TARGETS ${APP_NAME}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        BUNDLE DESTINATION .
+        RESOURCE DESTINATION .)
     install(TARGETS ${APP_NAME} RUNTIME_DEPENDENCIES
         DIRECTORIES ${CMAKE_SYSTEM_LIBRARY_PATH}
         PRE_EXCLUDE_REGEXES "api-ms-" "ext-ms-"
         POST_EXCLUDE_REGEXES ".*system32/.*\\.dll")
 else()
     install(TARGETS ${APP_NAME} RUNTIME_DEPENDENCIES
-        DIRECTORIES ${CMAKE_SYSTEM_LIBRARY_PATH})
+        DIRECTORIES ${CMAKE_SYSTEM_LIBRARY_PATH}
+        RESOURCE DESTINATION share/Resources)
 endif()

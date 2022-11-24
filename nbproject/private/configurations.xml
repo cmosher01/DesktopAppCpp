@@ -36,19 +36,21 @@
       <df name="include">
         <in>FoobarApp.h</in>
         <in>FoobarFrame.h</in>
+        <in>PreferencesDialog.h</in>
       </df>
       <df name="lib">
       </df>
       <df name="share">
         <df name="doc">
         </df>
+        <df name="Resources">
+        </df>
       </df>
       <df name="src">
         <in>Foobar.cpp</in>
         <in>FoobarApp.cpp</in>
         <in>FoobarFrame.cpp</in>
-      </df>
-      <df name="tmp">
+        <in>PreferencesDialog.cpp</in>
       </df>
     </df>
   </logicalFolder>

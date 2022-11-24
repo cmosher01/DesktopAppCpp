@@ -1,5 +1,6 @@
 #include "FoobarApp.h"
 #include "FoobarFrame.h"
+#include <wx/xrc/xmlres.h>
 #include <wx/fileconf.h>
 #include <wx/stdpaths.h>
 #include <boost/log/core.hpp>
@@ -11,36 +12,155 @@
 #include <boost/log/expressions/formatters/stream.hpp>
 #include <boost/log/expressions.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
-#include <filesystem>
 #include <iostream>
 #include <algorithm>
-#include <string>
+
+
+
+
+
+static std::filesystem::path dirCache() {
+    return std::filesystem::path(wxStandardPaths::Get().GetUserDir(wxStandardPaths::Dir_Cache).t_str());
+}
+
+static std::filesystem::path dirConfig() {
+    return std::filesystem::path(wxStandardPaths::Get().GetUserConfigDir().t_str());
+}
+
+static std::filesystem::path dirDocuments() {
+    return std::filesystem::path(wxStandardPaths::Get().GetAppDocumentsDir().t_str());
+}
+
+static std::filesystem::path dirResources() {
+    return std::filesystem::path(wxStandardPaths::Get().GetResourcesDir().t_str());
+}
+
+
+
+
 
 wxIMPLEMENT_APP_NO_MAIN(FoobarApp);
 
+FoobarApp::FoobarApp() : id("nu.mine.mosher.foobar") {
+}
+
 bool FoobarApp::OnInit() {
-    const std::string sidApp("nu.mine.mosher.foobar");
-    const std::filesystem::path idApp(sidApp);
-    const std::filesystem::path idApp_d(sidApp+".d");
+    if (!wxApp::OnInit()) {
+        return false;
+    }
 
 
 
     wxStandardPaths& stdpaths = wxStandardPaths::Get();
+    //stdpaths.SetInstallPrefix(".");
     stdpaths.SetFileLayout(wxStandardPaths::FileLayout_XDG);
 
 
 
+    InitBoostLog();
 
-    std::filesystem::path logfile = std::filesystem::path(stdpaths.GetUserDir(wxStandardPaths::Dir_Cache).t_str()) / idApp / "log";
+
+
+
+    this->confdir = dirConfig() / std::filesystem::path(GetID()+".d");
+    std::filesystem::create_directories(this->confdir);
+    BOOST_LOG_TRIVIAL(info) << "Configuration directory path: " << this->confdir;
+
+    this->conffile = dirConfig() / std::filesystem::path(GetID());
+    BOOST_LOG_TRIVIAL(info) << "Configuration      file path: " << this->conffile;
+    wxConfigBase::Set(new wxFileConfig("", "", GetID()));
+
+    this->docsdir = dirDocuments() / std::filesystem::path(GetID());
+    BOOST_LOG_TRIVIAL(info) << "User document directory path: " << this->docsdir;
+
+    const std::filesystem::path exe = std::filesystem::path(stdpaths.GetExecutablePath().t_str());
+    std::cout << "Executable         file path: " << exe << std::endl;
+    std::filesystem::path res = exe.parent_path();
+    if (res.filename() == "bin" || res.filename() == "MacOS") {
+        res = res.parent_path();
+    }
+    if (std::filesystem::is_directory(res / "share")) {
+        res /= "share";
+    }
+    if (std::filesystem::is_directory(res / "Resources")) {
+        res /= "Resources";
+    }
+    this->resdir = res;
+    std::cout << "Resource      directory path: " << this->resdir << std::endl;
+
+    wxXmlResource::Get()->InitAllHandlers();
+    if (!wxXmlResource::Get()->LoadAllFiles(this->resdir.c_str())) {
+        return false;
+    }
+
+
+
+    FoobarFrame *frame = new FoobarFrame();
+    frame->DoInit();
+    frame->Show();
+
+
+
+    return true;
+}
+
+int FoobarApp::OnExit() {
+    return 0;
+}
+
+
+
+const std::filesystem::path FoobarApp::GetLogFile() const {
+    return this->logfile;
+}
+
+const std::filesystem::path FoobarApp::GetResDir() const {
+    return this->resdir;
+}
+
+const std::string FoobarApp::GetID() const {
+    return this->id;
+}
+
+const std::filesystem::path FoobarApp::GetConfigFile() const {
+    return this->conffile;
+}
+
+const std::filesystem::path FoobarApp::GetConfigDir() const
+{
+    return this->confdir;
+}
+
+const std::filesystem::path FoobarApp::GetDocumentsDir() const {
+    return this->docsdir;
+}
+
+
+
+const std::filesystem::path FoobarApp::BuildLogFilePath() const {
+    std::filesystem::path logfile =
+        dirCache() /
+        std::filesystem::path(GetID()) /
+        std::filesystem::path("log");
+
     std::filesystem::create_directories(logfile);
     logfile = std::filesystem::canonical(logfile);
 
     const std::string ts = to_iso_string(boost::posix_time::second_clock::universal_time());
     logfile /= ts + ".log";
-    std::cout << "log file: " << logfile << std::endl;
+
+    return logfile;
+}
+
+void FoobarApp::InitBoostLog() {
+    this->logfile = BuildLogFilePath();
+
+    std::cout << "log file: " << this->logfile << std::endl;
+
+
 
     boost::log::add_file_log(
-            boost::log::keywords::file_name = logfile,
+            boost::log::keywords::file_name = this->logfile,
             boost::log::keywords::auto_flush = true,
             boost::log::keywords::format = (
                 boost::log::expressions::stream <<
@@ -48,55 +168,6 @@ bool FoobarApp::OnInit() {
                     boost::log::trivial::severity << " " <<
                     boost::log::expressions::message
             ));
+
     boost::log::add_common_attributes();
-
-
-
-
-    const std::filesystem::path exe = std::filesystem::path(stdpaths.GetExecutablePath().t_str());
-    BOOST_LOG_TRIVIAL(info) << "Executable path: " << exe;
-
-
-
-    const std::filesystem::path conf_d = std::filesystem::path(stdpaths.GetUserConfigDir().t_str()) / idApp_d;
-    std::filesystem::create_directories(conf_d);
-    BOOST_LOG_TRIVIAL(info) << "Configuration directory path: " << conf_d;
-    const std::filesystem::path conf = std::filesystem::path(stdpaths.GetUserConfigDir().t_str()) / idApp;
-    BOOST_LOG_TRIVIAL(info) << "Configuration      file path: " << conf;
-
-
-
-    wxConfigBase::Set(new wxFileConfig("", "", sidApp));
-
-    wxString confValue;
-    if (wxConfigBase::Get()->Read("confItem", &confValue)) {
-        std::cout << "Found confItem" << std::endl;
-    } else {
-        std::cout << "Could not find confItem" << std::endl;
-        confValue = "defaultValue";
-        wxConfigBase::Get()->Write("confItem", confValue);
-    }
-    std::cout << "confValue: " << confValue << std::endl << std::flush;
-    wxConfigBase::Get()->Flush();
-
-
-
-    const std::filesystem::path docs = std::filesystem::path(stdpaths.GetAppDocumentsDir().t_str()) / idApp;
-    BOOST_LOG_TRIVIAL(info) << "User documents path: " << docs;
-
-
-
-    FoobarFrame *frame = new FoobarFrame();
-    frame->DoInit((std::string&)logfile);
-    frame->Show(true);
-
-
-
-    return true;
-}
-
-
-
-int FoobarApp::OnExit() {
-    return 0;
 }

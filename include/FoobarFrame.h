@@ -12,7 +12,7 @@ class FoobarFrame : public wxFrame {
 public:
     FoobarFrame();
 
-    void DoInit(std::string logfile);
+    void DoInit();
 
 private:
     void OnExit(wxCommandEvent& event);
@@ -21,8 +21,6 @@ private:
 
     void InitMenuBar();
     void InitStatusBar();
-
-    std::string logfile;
 };
 
 #endif

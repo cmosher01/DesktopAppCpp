@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<resource xmlns="http://www.wxwidgets.org/wxxrc" version="2.5.3.0">
+	<object class="wxDialog" name="Preferences">
+		<style>wxDEFAULT_DIALOG_STYLE</style>
+		<size>659,383</size>
+		<title>Preferences</title>
+		<centered>1</centered>
+		<object class="wxBoxSizer">
+			<orient>wxVERTICAL</orient>
+			<object class="sizeritem">
+				<option>1</option>
+				<flag>wxALL|wxEXPAND</flag>
+				<border>10</border>
+				<object class="wxBoxSizer">
+					<orient>wxVERTICAL</orient>
+					<object class="sizeritem">
+						<option>1</option>
+						<flag>wxEXPAND</flag>
+						<border>0</border>
+						<object class="wxBoxSizer">
+							<orient>wxHORIZONTAL</orient>
+							<object class="spacer">
+								<option>1</option>
+								<flag>wxALIGN_BOTTOM</flag>
+								<border>0</border>
+								<size>0,0</size>
+							</object>
+							<object class="sizeritem">
+								<option>0</option>
+								<flag>wxALIGN_BOTTOM|wxALL</flag>
+								<border>0</border>
+								<object class="wxButton" name="m_btnClose">
+									<label>Close</label>
+									<default>1</default>
+									<auth_needed>0</auth_needed>
+									<markup>0</markup>
+									<bitmap />
+								</object>
+							</object>
+						</object>
+					</object>
+				</object>
+			</object>
+		</object>
+	</object>
+</resource>
