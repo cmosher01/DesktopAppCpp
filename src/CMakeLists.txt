@@ -15,7 +15,8 @@ set(icon_file ${CMAKE_SOURCE_DIR}/share/Resources/${APP_NAME}.png)
 
 
 
-add_executable(${APP_NAME} MACOSX_BUNDLE ${sources} ${icon_file} ${resources})
+add_executable(${APP_NAME} WIN32 MACOSX_BUNDLE
+    ${sources} ${icon_file} ${resources})
 
 
 find_package(Boost REQUIRED COMPONENTS log filesystem)
@@ -49,10 +50,15 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 
 
-set_target_properties(${APP_NAME} PROPERTIES MACOSX_BUNDLE TRUE RESOURCE ${resources})
+set_target_properties(${APP_NAME} PROPERTIES RESOURCE ${resources})
+
+
+
 if(APPLE)
-    set_target_properties(${APP_NAME} PROPERTIES MACOSX_BUNDLE_INFO_PLIST ${PROJECT_BINARY_DIR}/Info.plist)
-    set_source_files_properties(${icon_file} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
+    set_target_properties(${APP_NAME} PROPERTIES
+        MACOSX_BUNDLE_INFO_PLIST ${PROJECT_BINARY_DIR}/Info.plist)
+    set_source_files_properties(${icon_file} PROPERTIES
+        MACOSX_PACKAGE_LOCATION Resources)
     install(TARGETS ${APP_NAME}
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
         BUNDLE DESTINATION .)
@@ -60,15 +66,15 @@ if(APPLE)
     install(SCRIPT ${CMAKE_CURRENT_BINARY_DIR}/FixBundle.cmake)
 elseif(WIN32)
     install(TARGETS ${APP_NAME}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
         BUNDLE DESTINATION .
-        RESOURCE DESTINATION share/Resources)
-    install(TARGETS ${APP_NAME} RUNTIME_DEPENDENCIES
-        DIRECTORIES ${CMAKE_SYSTEM_LIBRARY_PATH}
-        PRE_EXCLUDE_REGEXES "api-ms-" "ext-ms-"
-        POST_EXCLUDE_REGEXES ".*system32/.*\\.dll")
+        RESOURCE DESTINATION share/Resources
+        RUNTIME_DEPENDENCIES
+            DIRECTORIES ${CMAKE_SYSTEM_LIBRARY_PATH}
+            PRE_EXCLUDE_REGEXES "api-ms-" "ext-ms-"
+            POST_EXCLUDE_REGEXES ".*system32/.*\\.dll")
 else()
-    install(TARGETS ${APP_NAME} RUNTIME_DEPENDENCIES
-        DIRECTORIES ${CMAKE_SYSTEM_LIBRARY_PATH}
-        RESOURCE DESTINATION share/Resources)
+    install(TARGETS ${APP_NAME}
+        RESOURCE DESTINATION share/Resources
+        RUNTIME_DEPENDENCIES
+            DIRECTORIES ${CMAKE_SYSTEM_LIBRARY_PATH})
 endif()
