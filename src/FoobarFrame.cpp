@@ -27,11 +27,11 @@ void FoobarFrame::InitMenuBar() {
     menuBar->Append(menuFile, "&File");
     menuFile->Append(wxID_EXIT);
     Bind(wxEVT_MENU, &FoobarFrame::OnExit, this, wxID_EXIT);
-    Bind(wxEVT_MENU, &FoobarFrame::OnPreferences, this, wxID_PREFERENCES);
 
     wxMenu *menuEdit = new wxMenu();
     menuBar->Append(menuEdit, "&Edit");
     menuEdit->Append(wxID_PREFERENCES);
+    Bind(wxEVT_MENU, &FoobarFrame::OnPreferences, this, wxID_PREFERENCES);
 
     wxMenu *menuHelp = new wxMenu();
     menuBar->Append(menuHelp, "&Help");
@@ -41,7 +41,7 @@ void FoobarFrame::InitMenuBar() {
 
 void FoobarFrame::InitStatusBar() {
     CreateStatusBar();
-    SetStatusText("Welcome to wxWidgets!");
+    SetStatusText(wxT("Welcome to ")+wxGetApp().GetID());
 }
 
 
@@ -51,10 +51,16 @@ void FoobarFrame::OnExit(wxCommandEvent& event) {
 }
 
 void FoobarFrame::OnAbout(wxCommandEvent& event) {
-//    std::string msg;
-//    msg = "Current log file:\n";
-//    msg += wxGetApp().GetLogFile().c_str();
-    wxMessageBox("TODO", "About Hello World", wxOK | wxICON_INFORMATION);
+    wxString msg = "";
+
+    msg += wxGetApp().GetID()+wxT("\n");
+
+    msg += wxT("version: ")+wxGetApp().GetVersion()+wxT("\n");
+
+    msg += wxT("Current log file:\n");
+    msg += wxGetApp().GetLogFile().c_str();
+
+    wxMessageBox(msg, wxT("About ")+wxGetApp().GetID(), wxOK | wxICON_INFORMATION);
 }
 
 void FoobarFrame::OnPreferences(wxCommandEvent& event) {

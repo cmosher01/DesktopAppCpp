@@ -1,3 +1,4 @@
+#include "config.h"
 #include "FoobarApp.h"
 #include "FoobarFrame.h"
 #include <wx/xrc/xmlres.h>
@@ -41,7 +42,11 @@ static std::filesystem::path dirResources() {
 
 wxIMPLEMENT_APP_NO_MAIN(FoobarApp);
 
-FoobarApp::FoobarApp() : id("nu.mine.mosher.foobar") {
+#ifndef PROJECT_VERSION
+#define PROJECT_VERSION 0.0.1
+#endif
+
+FoobarApp::FoobarApp() : id("nu.mine.mosher.foobar"), version(wxSTRINGIZE_T(PROJECT_VERSION)) {
 }
 
 bool FoobarApp::OnInit() {
@@ -120,6 +125,10 @@ const std::filesystem::path FoobarApp::GetResDir() const {
 
 const std::string FoobarApp::GetID() const {
     return this->id;
+}
+
+const wxString FoobarApp::GetVersion() const {
+    return this->version;
 }
 
 const std::filesystem::path FoobarApp::GetConfigFile() const {

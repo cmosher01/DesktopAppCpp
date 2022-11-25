@@ -9,14 +9,13 @@ FoobarFrame.cpp
 PreferencesDialog.cpp
 )
 set(resources
-../share/Resources/Foobar.xrc
+${CMAKE_SOURCE_DIR}/share/Resources/Foobar.xrc
 )
-set(icon_file ${CMAKE_SOURCE_DIR}/${APP_NAME}.png)
+set(icon_file ${CMAKE_SOURCE_DIR}/share/Resources/${APP_NAME}.png)
 
 
 
 add_executable(${APP_NAME} MACOSX_BUNDLE ${sources} ${icon_file} ${resources})
-
 
 
 find_package(Boost REQUIRED COMPONENTS log filesystem)
@@ -42,6 +41,11 @@ include(${wxWidgets_USE_FILE})
 target_link_libraries(${APP_NAME} PRIVATE ${wxWidgets_LIBRARIES})
 
 include(InstallRequiredSystemLibraries)
+
+
+
+configure_file(${CMAKE_SOURCE_DIR}/include/config.h.in config.h)
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 
 

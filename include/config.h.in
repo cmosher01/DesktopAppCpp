@@ -1,0 +1,7 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
+#cmakedefine PROJECT_NAME @PROJECT_NAME@
+#cmakedefine PROJECT_VERSION @PROJECT_VERSION@
+
+#endif /* CONFIG_H */

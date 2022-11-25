@@ -5,11 +5,13 @@
 #ifndef WX_PRECOMP
     #include <wx/wx.h>
 #endif
+#include <wx/string.h>
 #include <filesystem>
 #include <string>
 
 class FoobarApp : public wxApp {
     const std::string id;
+    const wxString version;
     std::filesystem::path logfile;
     std::filesystem::path resdir;
     std::filesystem::path conffile;
@@ -23,6 +25,7 @@ public:
     FoobarApp();
 
     const std::string GetID() const;
+    const wxString GetVersion() const;
     const std::filesystem::path GetLogFile() const;
     const std::filesystem::path GetResDir() const;
     const std::filesystem::path GetConfigFile() const;
