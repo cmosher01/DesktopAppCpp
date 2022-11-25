@@ -66,15 +66,15 @@ if(APPLE)
     install(SCRIPT ${CMAKE_CURRENT_BINARY_DIR}/FixBundle.cmake)
 elseif(WIN32)
     install(TARGETS ${APP_NAME}
-        BUNDLE DESTINATION .
-        RESOURCE DESTINATION share/Resources
         RUNTIME_DEPENDENCIES
             DIRECTORIES ${CMAKE_SYSTEM_LIBRARY_PATH}
             PRE_EXCLUDE_REGEXES "api-ms-" "ext-ms-"
-            POST_EXCLUDE_REGEXES ".*system32/.*\\.dll")
+            POST_EXCLUDE_REGEXES ".*system32/.*\\.dll"
+        BUNDLE DESTINATION .
+        RESOURCE DESTINATION share/Resources)
 else()
     install(TARGETS ${APP_NAME}
-        RESOURCE DESTINATION share/Resources
         RUNTIME_DEPENDENCIES
-            DIRECTORIES ${CMAKE_SYSTEM_LIBRARY_PATH})
+            DIRECTORIES ${CMAKE_SYSTEM_LIBRARY_PATH}
+        RESOURCE DESTINATION share/Resources)
 endif()
