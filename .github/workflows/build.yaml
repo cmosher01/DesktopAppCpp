@@ -29,7 +29,7 @@ jobs:
         run: |
           set -x
           git log --max-count=1 --pretty=tformat:%H --no-abbrev-commit
-          get rev-parse HEAD
+          git rev-parse HEAD
           git describe --dirty --broken --always --abbrev=0
           echo "${{ github.ref_name }}"
           echo "${{ github.ref }}"
