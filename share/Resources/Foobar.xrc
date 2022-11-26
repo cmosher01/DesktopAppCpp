@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <resource xmlns="http://www.wxwidgets.org/wxxrc" version="2.5.3.0">
 	<object class="wxDialog" name="Preferences">
-		<style>wxDEFAULT_DIALOG_STYLE</style>
-		<size>659,383</size>
+		<style>wxCAPTION|wxCLOSE_BOX|wxMAXIMIZE_BOX|wxMINIMIZE_BOX|wxRESIZE_BORDER|wxSYSTEM_MENU</style>
 		<title>Preferences</title>
 		<centered>1</centered>
 		<object class="wxBoxSizer">
@@ -15,6 +14,82 @@
 					<orient>wxVERTICAL</orient>
 					<object class="sizeritem">
 						<option>1</option>
+						<flag>wxEXPAND</flag>
+						<border>0</border>
+						<object class="wxBoxSizer">
+							<orient>wxHORIZONTAL</orient>
+							<object class="sizeritem">
+								<option>0</option>
+								<flag>wxALL|wxEXPAND</flag>
+								<border>5</border>
+								<object class="wxTreeCtrl" name="treItems">
+									<style>wxTR_FULL_ROW_HIGHLIGHT|wxTR_HAS_BUTTONS|wxTR_HAS_VARIABLE_ROW_HEIGHT|wxTR_LINES_AT_ROOT|wxTR_TWIST_BUTTONS|wxHSCROLL|wxVSCROLL</style>
+								</object>
+							</object>
+							<object class="sizeritem">
+								<option>1</option>
+								<flag>wxEXPAND|wxLEFT</flag>
+								<border>5</border>
+								<object class="wxBoxSizer">
+									<orient>wxVERTICAL</orient>
+									<object class="sizeritem">
+										<option>0</option>
+										<flag>wxEXPAND</flag>
+										<border>5</border>
+										<object class="wxBoxSizer">
+											<orient>wxVERTICAL</orient>
+											<object class="sizeritem">
+												<option>0</option>
+												<flag></flag>
+												<border>0</border>
+												<object class="wxCheckBox" name="chkActive">
+													<label>Active</label>
+													<checked>0</checked>
+												</object>
+											</object>
+											<object class="sizeritem">
+												<option>1</option>
+												<flag>wxEXPAND</flag>
+												<border>5</border>
+												<object class="wxStaticBoxSizer">
+													<orient>wxVERTICAL</orient>
+													<label>name</label>
+													<object class="sizeritem">
+														<option>0</option>
+														<flag>wxALL|wxEXPAND</flag>
+														<border>5</border>
+														<object class="wxTextCtrl" name="txtName">
+															<value></value>
+														</object>
+													</object>
+												</object>
+											</object>
+										</object>
+									</object>
+									<object class="sizeritem">
+										<option>1</option>
+										<flag>wxBOTTOM|wxEXPAND|wxTOP</flag>
+										<border>5</border>
+										<object class="wxBoxSizer">
+											<orient>wxHORIZONTAL</orient>
+											<object class="sizeritem">
+												<option>1</option>
+												<flag>wxEXPAND</flag>
+												<border>5</border>
+												<object class="wxTextCtrl" name="txtConfig">
+													<style>wxTE_DONTWRAP|wxTE_MULTILINE|wxTE_PROCESS_TAB</style>
+													<size>1024,768</size>
+													<value></value>
+												</object>
+											</object>
+										</object>
+									</object>
+								</object>
+							</object>
+						</object>
+					</object>
+					<object class="sizeritem">
+						<option>0</option>
 						<flag>wxEXPAND</flag>
 						<border>0</border>
 						<object class="wxBoxSizer">
