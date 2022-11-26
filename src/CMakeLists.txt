@@ -8,15 +8,16 @@ FoobarApp.cpp
 FoobarFrame.cpp
 PreferencesDialog.cpp
 )
+
 set(resources
 ${CMAKE_SOURCE_DIR}/share/Resources/Foobar.xrc
+${CMAKE_SOURCE_DIR}/share/Resources/foobar.png
+${CMAKE_SOURCE_DIR}/share/Resources/config/.template.conf
 )
-set(icon_file ${CMAKE_SOURCE_DIR}/share/Resources/${APP_NAME}.png)
-
-
 
 add_executable(${APP_NAME} WIN32 MACOSX_BUNDLE
-    ${sources} ${icon_file} ${resources})
+    ${sources} ${resources})
+
 
 
 find_package(Boost REQUIRED COMPONENTS log filesystem)
@@ -50,15 +51,13 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 
 
-set_target_properties(${APP_NAME} PROPERTIES RESOURCE ${resources})
+set_target_properties(${APP_NAME} PROPERTIES RESOURCE "${resources}")
 
 
 
 if(APPLE)
     set_target_properties(${APP_NAME} PROPERTIES
         MACOSX_BUNDLE_INFO_PLIST ${PROJECT_BINARY_DIR}/Info.plist)
-    set_source_files_properties(${icon_file} PROPERTIES
-        MACOSX_PACKAGE_LOCATION Resources)
     install(TARGETS ${APP_NAME}
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
         BUNDLE DESTINATION .)

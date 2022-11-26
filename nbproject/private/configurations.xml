@@ -44,6 +44,13 @@
         <df name="doc">
         </df>
         <df name="Resources">
+          <df name="config">
+            <in>.template.conf</in>
+          </df>
+          <df name="disk">
+          </df>
+          <df name="rom">
+          </df>
         </df>
       </df>
       <df name="src">
