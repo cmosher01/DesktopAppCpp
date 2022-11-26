@@ -11,6 +11,8 @@
 wxBEGIN_EVENT_TABLE(PreferencesDialog, wxDialog)
 wxEND_EVENT_TABLE()
 
+static const wxSize& SIZ_DLG = wxSize(1024,768);
+
 PreferencesDialog::PreferencesDialog(wxWindow* parent) : parent(parent) {
 }
 
@@ -21,6 +23,8 @@ PreferencesDialog::~PreferencesDialog() {
 
 void PreferencesDialog::OnInit() {
     wxXmlResource::Get()->LoadDialog(this, this->parent, "Preferences");
+
+    this->SetSize(SIZ_DLG);
 
     CTRL(wxTreeCtrl, treItems);
     wxTreeItemId configs = treItems->AddRoot("configurations");
