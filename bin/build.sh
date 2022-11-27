@@ -27,5 +27,5 @@ cpack
 echo "::endgroup::"
 
 echo "::group::directory"
-tree
+tree -a
 echo "::endgroup::"
