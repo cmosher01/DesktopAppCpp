@@ -83,8 +83,6 @@ PreferencesDialog::~PreferencesDialog() {
 }
 
 void PreferencesDialog::OnClose(wxCloseEvent& event) {
-    std::cout << "OnClose" << std::endl;
-
     CTRL(wxTreeCtrl, treItems);
     TreeItemData* data = (TreeItemData*)treItems->GetItemData(treItems->GetSelection());
     if (data->isFile()) {
@@ -92,7 +90,7 @@ void PreferencesDialog::OnClose(wxCloseEvent& event) {
             Save(data->path());
         }
     }
-    Destroy();
+    EndModal(wxID_OK);
 }
 
 static void fillDir(wxTreeCtrl *treItems, wxTreeItemId item, const std::filesystem::path& dir, bool editable = false) {
@@ -291,8 +289,6 @@ void PreferencesDialog::OnRename(wxCommandEvent& evt) {
 }
 
 void PreferencesDialog::OnCloseButton(wxCommandEvent& evt) {
-    std::cout << "OnCloseButton" << std::endl;
-
     CTRL(wxTreeCtrl, treItems);
     TreeItemData* data = (TreeItemData*)treItems->GetItemData(treItems->GetSelection());
     if (data->isFile()) {
@@ -300,5 +296,5 @@ void PreferencesDialog::OnCloseButton(wxCommandEvent& evt) {
             Save(data->path());
         }
     }
-    Destroy();
+    EndModal(wxID_OK);
 }
