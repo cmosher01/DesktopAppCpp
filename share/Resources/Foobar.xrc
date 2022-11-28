@@ -40,7 +40,7 @@
 										<object class="wxBoxSizer">
 											<orient>wxVERTICAL</orient>
 											<object class="sizeritem">
-												<option>0</option>
+												<option>1</option>
 												<flag>wxEXPAND</flag>
 												<border>0</border>
 												<object class="wxBoxSizer">
@@ -87,18 +87,31 @@
 												</object>
 											</object>
 											<object class="sizeritem">
-												<option>0</option>
-												<flag>wxEXPAND|wxTOP</flag>
+												<option>1</option>
+												<flag>wxEXPAND</flag>
 												<border>5</border>
 												<object class="wxStaticBoxSizer">
-													<orient>wxVERTICAL</orient>
+													<orient>wxHORIZONTAL</orient>
 													<label>name</label>
 													<object class="sizeritem">
-														<option>0</option>
-														<flag>wxALL|wxEXPAND</flag>
+														<option>1</option>
+														<flag>wxBOTTOM|wxEXPAND|wxLEFT|wxRIGHT</flag>
 														<border>5</border>
 														<object class="wxTextCtrl" name="txtName">
+															<enabled>0</enabled>
 															<value></value>
+														</object>
+													</object>
+													<object class="sizeritem">
+														<option>0</option>
+														<flag>wxBOTTOM|wxEXPAND|wxRIGHT</flag>
+														<border>5</border>
+														<object class="wxButton" name="btnRename">
+															<label>Rename</label>
+															<default>0</default>
+															<auth_needed>0</auth_needed>
+															<markup>0</markup>
+															<bitmap />
 														</object>
 													</object>
 												</object>

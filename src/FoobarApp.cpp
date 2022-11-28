@@ -1,6 +1,7 @@
 #include "config.h"
 #include "FoobarApp.h"
 #include "FoobarFrame.h"
+#include <wx/app.h>
 #include <wx/xrc/xmlres.h>
 #include <wx/fileconf.h>
 #include <wx/stdpaths.h>
@@ -54,7 +55,7 @@ bool FoobarApp::OnInit() {
         return false;
     }
 
-
+    wxHandleFatalExceptions();
 
     wxStandardPaths& stdpaths = wxStandardPaths::Get();
     //stdpaths.SetInstallPrefix(".");
@@ -135,8 +136,7 @@ const std::filesystem::path FoobarApp::GetConfigFile() const {
     return this->conffile;
 }
 
-const std::filesystem::path FoobarApp::GetConfigDir() const
-{
+const std::filesystem::path FoobarApp::GetConfigDir() const {
     return this->confdir;
 }
 
