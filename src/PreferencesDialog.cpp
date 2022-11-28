@@ -39,13 +39,13 @@ public:
         m_path = new std::filesystem::path(path);
         m_editable = editable;
     }
-    virtual bool isFile() { return true; }
-    bool isEditable() { return m_editable; }
-    const std::filesystem::path path() { return *m_path; }
+    virtual bool isFile() const { return true; }
+    bool isEditable() const { return m_editable; }
+    const std::filesystem::path path() const { return *m_path; }
 };
 
 class EmptyTreeItem : public TreeItemData {
-    virtual bool isFile() { return false; }
+    virtual bool isFile() const { return false; }
 };
 
 class TreeSink : public wxDirTraverser {
@@ -84,7 +84,7 @@ PreferencesDialog::~PreferencesDialog() {
 
 void PreferencesDialog::OnClose(wxCloseEvent& event) {
     CTRL(wxTreeCtrl, treItems);
-    TreeItemData* data = (TreeItemData*)treItems->GetItemData(treItems->GetSelection());
+    const TreeItemData *data = (TreeItemData*)treItems->GetItemData(treItems->GetSelection());
     if (data->isFile()) {
         if (data->isEditable()) {
             Save(data->path());
@@ -105,12 +105,14 @@ void PreferencesDialog::BuildItemTree() {
     treItems->DeleteAllItems();
 
     wxTreeItemId configs = treItems->AddRoot(wxT("configurations"), -1, -1, new EmptyTreeItem());
-    wxTreeItemId built_in = treItems->AppendItem(configs, wxT("built-in"), -1, -1, new EmptyTreeItem());
-    fillDir(treItems, built_in, wxGetApp().GetResDir());
-    treItems->SortChildren(built_in);
+
     wxTreeItemId user = treItems->AppendItem(configs, wxT("user"), -1, -1, new EmptyTreeItem());
     fillDir(treItems, user, wxGetApp().GetConfigDir(), true);
     treItems->SortChildren(user);
+
+    wxTreeItemId built_in = treItems->AppendItem(configs, wxT("built-in"), -1, -1, new EmptyTreeItem());
+    fillDir(treItems, built_in, wxGetApp().GetResDir());
+    treItems->SortChildren(built_in);
 
     treItems->ExpandAll();
 
@@ -133,12 +135,9 @@ void PreferencesDialog::Save(const std::filesystem::path& to) {
     CTRL(wxTextCtrl, txtConfig);
     const wxString sConfig = txtConfig->GetValue();
     if (sConfig != this->sOrigConfig) {
-        std::cout << "SAVE to " << to.c_str() << std::endl;
         std::ofstream out(to);
         out << sConfig;
         this->sOrigConfig = sConfig;
-    } else {
-        std::cout << "(config not changed)" << std::endl;
     }
 }
 
@@ -147,17 +146,17 @@ void PreferencesDialog::OnTreeSelectionChanged(wxTreeEvent& evt) {
     // nor the final de-select upon dialog destruction
 
     CTRL(wxTreeCtrl, treItems);
-    CTRL(wxTextCtrl, txtName);
+    CTRL(wxStaticText, txtName);
     CTRL(wxTextCtrl, txtConfig);
 
-    TreeItemData* dataOld = (TreeItemData*)treItems->GetItemData(evt.GetOldItem());
+    const TreeItemData *dataOld = (TreeItemData*)treItems->GetItemData(evt.GetOldItem());
     wxString pathOld = "(not a file)";
     if (dataOld->isFile()) {
         pathOld = dataOld->path().c_str();
         Save(dataOld->path());
     }
 
-    TreeItemData* dataNew = (TreeItemData*)treItems->GetItemData(evt.GetItem());
+    const TreeItemData *dataNew = (TreeItemData*)treItems->GetItemData(evt.GetItem());
     wxString pathNew = "(not a file)";
     if (dataNew->isFile()) {
         pathNew = dataNew->path().c_str();
@@ -167,14 +166,12 @@ void PreferencesDialog::OnTreeSelectionChanged(wxTreeEvent& evt) {
         this->sOrigConfig = buffer.str();
         txtConfig->SetValue(this->sOrigConfig);
         wxString name = wxFileName::FileName(dataNew->path().c_str()).GetName();
-        txtName->SetValue(name);
+        txtName->SetLabel(name);
     } else {
         this->sOrigConfig = wxEmptyString;
         txtConfig->SetValue(this->sOrigConfig);
-        txtName->SetValue(wxEmptyString);
+        txtName->SetLabel(wxEmptyString);
     }
-
-    std::cout << "selection changed: " << pathOld << " to " << pathNew << std::endl;
 }
 
 void PreferencesDialog::PreSelectUserConfigItemName(const std::filesystem::path& n) {
@@ -218,7 +215,7 @@ const std::filesystem::path BuildNewConfFilePath() {
 
 void PreferencesDialog::OnDuplicate(wxCommandEvent& evt) {
     CTRL(wxTreeCtrl, treItems);
-    TreeItemData* data = (TreeItemData*)treItems->GetItemData(treItems->GetSelection());
+    const TreeItemData *data = (TreeItemData*)treItems->GetItemData(treItems->GetSelection());
     if (data->isFile()) {
         if (data->isEditable()) {
             Save(data->path());
@@ -237,15 +234,14 @@ void PreferencesDialog::OnDuplicate(wxCommandEvent& evt) {
 
 void PreferencesDialog::OnDelete(wxCommandEvent& evt) {
     CTRL(wxTreeCtrl, treItems);
-    CTRL(wxTextCtrl, txtName);
+    CTRL(wxStaticText, txtName);
     CTRL(wxTextCtrl, txtConfig);
-    TreeItemData* data = (TreeItemData*)treItems->GetItemData(treItems->GetSelection());
+    const TreeItemData *data = (TreeItemData*)treItems->GetItemData(treItems->GetSelection());
     if (data->isFile()) {
         if (data->isEditable()) {
             if (wxMessageBox(
                     wxT("Are you sure to want to permanently DELETE this configuration file?"),
                     wxT("Delete"), wxYES_NO|wxCENTER, this) == wxYES) {
-                std::cout << "DELETE " << data->path().c_str() << std::endl;
                 std::filesystem::remove(data->path());
                 BuildItemTree();
                 treItems->SetFocus();
@@ -253,20 +249,16 @@ void PreferencesDialog::OnDelete(wxCommandEvent& evt) {
                 // clear out fields (TODO is there a better way?)
                 this->sOrigConfig = wxEmptyString;
                 txtConfig->SetValue(this->sOrigConfig);
-                txtName->SetValue(wxEmptyString);
+                txtName->SetLabel(wxEmptyString);
             }
-        } else {
-            std::cout << "Can't delete " << data->path().c_str() << std::endl;
         }
-    } else {
-        std::cout << "(not a file)" << std::endl;
     }
 }
 
 
 void PreferencesDialog::OnRename(wxCommandEvent& evt) {
     CTRL(wxTreeCtrl, treItems);
-    TreeItemData* data = (TreeItemData*)treItems->GetItemData(treItems->GetSelection());
+    const TreeItemData *data = (TreeItemData*)treItems->GetItemData(treItems->GetSelection());
     if (data->isFile()) {
         if (data->isEditable()) {
             Save(data->path());
@@ -290,7 +282,7 @@ void PreferencesDialog::OnRename(wxCommandEvent& evt) {
 
 void PreferencesDialog::OnCloseButton(wxCommandEvent& evt) {
     CTRL(wxTreeCtrl, treItems);
-    TreeItemData* data = (TreeItemData*)treItems->GetItemData(treItems->GetSelection());
+    const TreeItemData *data = (TreeItemData*)treItems->GetItemData(treItems->GetSelection());
     if (data->isFile()) {
         if (data->isEditable()) {
             Save(data->path());

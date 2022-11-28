@@ -96,18 +96,19 @@
 											</object>
 											<object class="sizeritem">
 												<option>0</option>
-												<flag>wxEXPAND</flag>
+												<flag>wxBOTTOM|wxEXPAND|wxLEFT</flag>
 												<border>5</border>
 												<object class="wxStaticBoxSizer">
 													<orient>wxHORIZONTAL</orient>
 													<label>name</label>
 													<object class="sizeritem">
 														<option>1</option>
-														<flag>wxBOTTOM|wxEXPAND|wxLEFT|wxRIGHT</flag>
-														<border>5</border>
-														<object class="wxTextCtrl" name="txtName">
-															<enabled>0</enabled>
-															<value></value>
+														<flag>wxLEFT|wxTOP</flag>
+														<border>7</border>
+														<object class="wxStaticText" name="txtName">
+															<style>wxST_ELLIPSIZE_MIDDLE</style>
+															<label>Example text here</label>
+															<wrap>-1</wrap>
 														</object>
 													</object>
 													<object class="sizeritem">
