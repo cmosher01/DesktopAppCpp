@@ -55,8 +55,6 @@ bool FoobarApp::OnInit() {
         return false;
     }
 
-    wxHandleFatalExceptions();
-
     wxStandardPaths& stdpaths = wxStandardPaths::Get();
     //stdpaths.SetInstallPrefix(".");
     stdpaths.SetFileLayout(wxStandardPaths::FileLayout_XDG);
