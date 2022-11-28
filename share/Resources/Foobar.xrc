@@ -16,21 +16,29 @@
 					<object class="sizeritem">
 						<option>1</option>
 						<flag>wxEXPAND</flag>
-						<border>0</border>
-						<object class="wxBoxSizer">
-							<orient>wxHORIZONTAL</orient>
-							<object class="sizeritem">
-								<option>0</option>
-								<flag>wxALL|wxEXPAND</flag>
-								<border>5</border>
-								<object class="wxTreeCtrl" name="treItems">
-									<style>wxTR_FULL_ROW_HIGHLIGHT|wxTR_HAS_BUTTONS|wxTR_HAS_VARIABLE_ROW_HEIGHT|wxTR_LINES_AT_ROOT|wxTR_TWIST_BUTTONS|wxHSCROLL|wxVSCROLL</style>
+						<border>5</border>
+						<object class="wxSplitterWindow" name="m_splitter1">
+							<style>wxSP_LIVE_UPDATE</style>
+							<sashpos>0</sashpos>
+							<gravity>0.25</gravity>
+							<minsize>0</minsize>
+							<orientation>vertical</orientation>
+							<object class="wxPanel" name="m_panel1">
+								<style>wxTAB_TRAVERSAL</style>
+								<object class="wxBoxSizer">
+									<orient>wxVERTICAL</orient>
+									<object class="sizeritem">
+										<option>1</option>
+										<flag>wxALL|wxEXPAND</flag>
+										<border>5</border>
+										<object class="wxTreeCtrl" name="treItems">
+											<style>wxTR_FULL_ROW_HIGHLIGHT|wxTR_HAS_BUTTONS|wxTR_HAS_VARIABLE_ROW_HEIGHT|wxTR_LINES_AT_ROOT|wxTR_TWIST_BUTTONS|wxHSCROLL|wxVSCROLL</style>
+										</object>
+									</object>
 								</object>
 							</object>
-							<object class="sizeritem">
-								<option>1</option>
-								<flag>wxEXPAND|wxLEFT</flag>
-								<border>5</border>
+							<object class="wxPanel" name="m_panel2">
+								<style>wxTAB_TRAVERSAL</style>
 								<object class="wxBoxSizer">
 									<orient>wxVERTICAL</orient>
 									<object class="sizeritem">
@@ -40,7 +48,7 @@
 										<object class="wxBoxSizer">
 											<orient>wxVERTICAL</orient>
 											<object class="sizeritem">
-												<option>1</option>
+												<option>0</option>
 												<flag>wxEXPAND</flag>
 												<border>0</border>
 												<object class="wxBoxSizer">
@@ -87,7 +95,7 @@
 												</object>
 											</object>
 											<object class="sizeritem">
-												<option>1</option>
+												<option>0</option>
 												<flag>wxEXPAND</flag>
 												<border>5</border>
 												<object class="wxStaticBoxSizer">
