@@ -9,6 +9,7 @@
 class PreferencesDialog : public wxDialog {
     wxWindow *parent;
     wxString sOrigConfig;
+    wxString active;
 
     void BuildItemTree();
     void PreSelectUserConfigItemName(const std::filesystem::path& n);
@@ -17,6 +18,7 @@ class PreferencesDialog : public wxDialog {
     void OnClose(wxCloseEvent& event);
     void OnCloseButton(wxCommandEvent& evt);
     void OnTreeSelectionChanged(wxTreeEvent& evt);
+    void OnActive(wxCommandEvent& evt);
     void OnDuplicate(wxCommandEvent& evt);
     void OnDelete(wxCommandEvent& evt);
     void OnRename(wxCommandEvent& evt);

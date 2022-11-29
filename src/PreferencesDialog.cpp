@@ -8,8 +8,10 @@
 #include <wx/msgdlg.h>
 #include <wx/treectrl.h>
 #include <wx/textctrl.h>
+#include <wx/checkbox.h>
 #include <wx/textdlg.h>
 #include <wx/xrc/xmlres.h>
+#include <wx/config.h>
 #include <wx/dir.h>
 #include <wx/filename.h>
 #include <boost/log/trivial.hpp>
@@ -21,23 +23,34 @@
 
 #define CTRL(t,n) t* n = XRCCTRL(*this, #n, t)
 
+static const wxSize& SIZ_DLG = wxSize(1024,768);
+
+
+
 wxBEGIN_EVENT_TABLE(PreferencesDialog, wxDialog)
     EVT_CLOSE(PreferencesDialog::OnClose)
     EVT_BUTTON(wxID_OK, PreferencesDialog::OnCloseButton)
     EVT_TREE_SEL_CHANGED(XRCID("treItems"), PreferencesDialog::OnTreeSelectionChanged)
+    EVT_CHECKBOX(XRCID("chkActive"), PreferencesDialog::OnActive)
     EVT_BUTTON(XRCID("btnDuplicate"), PreferencesDialog::OnDuplicate)
     EVT_BUTTON(XRCID("btnDelete"), PreferencesDialog::OnDelete)
     EVT_BUTTON(XRCID("btnRename"), PreferencesDialog::OnRename)
 wxEND_EVENT_TABLE()
 
+
+
+
+
+
+
 class TreeItemData : public wxTreeItemData {
-    std::filesystem::path *m_path;
-    bool m_editable;
+    const std::filesystem::path *m_path;
+    const bool m_editable;
 public:
     TreeItemData() : m_path(NULL), m_editable(false) {}
-    TreeItemData(const std::filesystem::path& path, bool editable) {
-        m_path = new std::filesystem::path(path);
-        m_editable = editable;
+    TreeItemData(const std::filesystem::path& path, bool editable) :
+        m_path(new std::filesystem::path(path)),
+        m_editable(editable) {
     }
     virtual bool isFile() const { return true; }
     bool isEditable() const { return m_editable; }
@@ -47,6 +60,9 @@ public:
 class EmptyTreeItem : public TreeItemData {
     virtual bool isFile() const { return false; }
 };
+
+
+
 
 class TreeSink : public wxDirTraverser {
 public:
@@ -69,12 +85,13 @@ public:
     }
 private:
     wxTreeCtrl *m_tree;
-    wxTreeItemId m_parent;
+    const wxTreeItemId m_parent;
     const std::filesystem::path& m_dir;
-    bool m_editable;
+    const bool m_editable;
 };
 
-static const wxSize& SIZ_DLG = wxSize(1024,768);
+
+
 
 PreferencesDialog::PreferencesDialog(wxWindow* parent) : parent(parent) {
 }
@@ -120,6 +137,14 @@ void PreferencesDialog::BuildItemTree() {
 }
 
 void PreferencesDialog::OnInit() {
+    wxConfigBase *appconf = wxConfigBase::Get();
+    if (!appconf->Read(wxT("/ActivePreferences/name"), &this->active)) {
+        // TODO what to do when no config?
+        this->active = ".template";
+        appconf->Write(wxT("/ActivePreferences/name"), this->active);
+        appconf->Flush();
+    }
+
     wxXmlResource::Get()->LoadDialog(this, this->parent, "Preferences");
 
     SetSize(SIZ_DLG);
@@ -148,6 +173,7 @@ void PreferencesDialog::OnTreeSelectionChanged(wxTreeEvent& evt) {
     CTRL(wxTreeCtrl, treItems);
     CTRL(wxStaticText, txtName);
     CTRL(wxTextCtrl, txtConfig);
+    CTRL(wxCheckBox, chkActive);
 
     const TreeItemData *dataOld = (TreeItemData*)treItems->GetItemData(evt.GetOldItem());
     wxString pathOld = "(not a file)";
@@ -167,15 +193,16 @@ void PreferencesDialog::OnTreeSelectionChanged(wxTreeEvent& evt) {
         txtConfig->SetValue(this->sOrigConfig);
         wxString name = wxFileName::FileName(dataNew->path().c_str()).GetName();
         txtName->SetLabel(name);
+        chkActive->SetValue(name == this->active);
     } else {
         this->sOrigConfig = wxEmptyString;
         txtConfig->SetValue(this->sOrigConfig);
         txtName->SetLabel(wxEmptyString);
+        chkActive->SetValue(false);
     }
 }
 
 void PreferencesDialog::PreSelectUserConfigItemName(const std::filesystem::path& n) {
-    wxString name = wxFileName::FileName(n.c_str()).GetName();
     CTRL(wxTreeCtrl, treItems);
     wxTreeItemId id = treItems->GetRootItem();
     wxTreeItemIdValue ctx;
@@ -189,7 +216,7 @@ void PreferencesDialog::PreSelectUserConfigItemName(const std::filesystem::path&
 
     id = i;
     i = treItems->GetFirstChild(id, ctx);
-    while (i.IsOk() && treItems->GetItemText(i) != name) {
+    while (i.IsOk() && treItems->GetItemText(i) != wxFileName::FileName(n.c_str()).GetName()) {
         i = treItems->GetNextChild(id, ctx);
     }
     if (!i.IsOk()) {
@@ -199,7 +226,6 @@ void PreferencesDialog::PreSelectUserConfigItemName(const std::filesystem::path&
     treItems->SelectItem(i);
     treItems->SetFocus();
 }
-
 
 const std::filesystem::path BuildNewConfFilePath() {
     std::filesystem::path f = wxGetApp().GetConfigDir();
@@ -211,6 +237,22 @@ const std::filesystem::path BuildNewConfFilePath() {
     BOOST_LOG_TRIVIAL(info) << "will create file: " << f.c_str();
 
     return f;
+}
+
+void PreferencesDialog::OnActive(wxCommandEvent& evt) {
+    if (evt.IsChecked()) {
+        CTRL(wxTreeCtrl, treItems);
+        const TreeItemData *data = (TreeItemData*)treItems->GetItemData(treItems->GetSelection());
+        if (data->isFile()) {
+            wxString name = wxFileName::FileName(data->path().c_str()).GetName();
+            this->active = name;
+            wxConfigBase::Get()->Write(wxT("/ActivePreferences/name"), this->active);
+            BuildItemTree();
+            PreSelectUserConfigItemName(data->path());
+        }
+    } else {
+        // TODO what if they uncheck the active checkbox?
+    }
 }
 
 void PreferencesDialog::OnDuplicate(wxCommandEvent& evt) {
@@ -255,7 +297,6 @@ void PreferencesDialog::OnDelete(wxCommandEvent& evt) {
     }
 }
 
-
 void PreferencesDialog::OnRename(wxCommandEvent& evt) {
     CTRL(wxTreeCtrl, treItems);
     const TreeItemData *data = (TreeItemData*)treItems->GetItemData(treItems->GetSelection());
@@ -267,6 +308,7 @@ void PreferencesDialog::OnRename(wxCommandEvent& evt) {
             if (!newname.IsEmpty() && newname != name) {
                 wxFileName fn(data->path().c_str());
                 fn.SetName(newname);
+                // TODO should we check for existence of name in built-in (to prevent override)?
                 if (fn.Exists()) {
                     wxMessageBox(wxT("That name is already being used."), wxT("File exists"), wxOK|wxCENTER, this);
                 } else {
