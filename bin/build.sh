@@ -10,8 +10,8 @@ else
 fi
 cd $builddir
 
-git log --max-count=1 --pretty=tformat:%H --no-abbrev-commit
-git describe --tags --dirty --broken --always
+#git log --max-count=1 --pretty=tformat:%H --no-abbrev-commit
+#git describe --tags --dirty --broken --always
 
 echo "::group::cmake"
 cmake ../..
