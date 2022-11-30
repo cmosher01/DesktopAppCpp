@@ -26,5 +26,5 @@ if [ "$1" = "-n" ] ; then
 fi
 
 echo "::group::cpack"
-cpack
+cpack -B ../cpack/
 echo "::endgroup::"

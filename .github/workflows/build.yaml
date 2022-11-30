@@ -45,9 +45,9 @@ jobs:
       - uses: "softprops/action-gh-release@v1"
         with:
           files: |
-            tmp/*/*.zip
-            tmp/*/*.tar.gz
-            tmp/*/*.7z
-            tmp/*/*.deb
-            tmp/*/*.dmg
-            tmp/*/*.exe
+            tmp/cpack/*.zip
+            tmp/cpack/*.tar.gz
+            tmp/cpack/*.7z
+            tmp/cpack/*.deb
+            tmp/cpack/*.dmg
+            tmp/cpack/*.exe
