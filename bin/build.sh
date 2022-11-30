@@ -10,6 +10,9 @@ else
 fi
 cd $builddir
 
+git log --max-count=1 --pretty=tformat:%H --no-abbrev-commit
+git describe --tags --dirty --broken --always
+
 echo "::group::cmake"
 cmake ../..
 echo "::endgroup::"
@@ -24,8 +27,4 @@ fi
 
 echo "::group::cpack"
 cpack
-echo "::endgroup::"
-
-echo "::group::directory"
-tree -a
 echo "::endgroup::"

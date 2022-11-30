@@ -6,5 +6,5 @@ echo "::endgroup::"
 
 echo "::group::install dependencies"
 sudo apt-get -qqqq update
-sudo apt-get -qqqq install tree libboost-all-dev libwxgtk3.2-dev
+sudo apt-get -qqqq install libboost-all-dev libwxgtk3.2-dev
 echo "::endgroup::"

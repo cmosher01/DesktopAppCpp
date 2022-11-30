@@ -10,28 +10,40 @@ set(CMAKE_FIND_PACKAGE_PREFER_CONFIG TRUE)
 
 
 
-macro(pv v)
-    message(STATUS "${v}=${${v}}")
-endmacro()
+set(APP_NAME foobar)
+
+project(${APP_NAME}
+    VERSION 0.0.2
+    DESCRIPTION "A desktop application example"
+    HOMEPAGE_URL https://github.com/cmosher01/DesktopAppCpp
+    LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(PROJECT_FOURCC epl2)
+set(PROJECT_VENDOR "nu.mine.mosher")
+set(CPACK_PACKAGE_VENDOR "${PROJECT_VENDOR}")
+set(CPACK_PACKAGE_CONTACT "cmosher01@gmail.com")
+set(CPACK_PACKAGE_DESCRIPTION "${PROJECT_DESCRIPTION}")
+
+set(sources
+Foobar.cpp
+FoobarApp.cpp
+FoobarFrame.cpp
+PreferencesDialog.cpp
+)
+list(TRANSFORM sources PREPEND "src/")
+
+set(resources
+Foobar.xrc
+foobar.png
+config/.template.conf
+)
+list(TRANSFORM resources PREPEND "share/Resources/")
 
 
 
-project(
-    foobar
-        VERSION 0.0.2
-        DESCRIPTION "A desktop application example"
-        HOMEPAGE_URL https://github.com/cmosher01/DesktopAppCpp
-        LANGUAGES CXX)
 
-
-
-
-
-pv(CMAKE_SOURCE_DIR)
-pv(CMAKE_BINARY_DIR)
-
-pv(PROJECT_SOURCE_DIR)
-pv(PROJECT_BINARY_DIR)
 
 file(TO_CMAKE_PATH "${PROJECT_BINARY_DIR}/CMakeLists.txt" LOC_PATH)
 if(EXISTS "${LOC_PATH}")
@@ -47,68 +59,99 @@ elseif(APPLE)
     unset(CMAKE_INSTALL_PREFIX)
     unset(CPACK_PACKAGING_INSTALL_PREFIX)
 else()
-    set(CMAKE_INSTALL_PREFIX "/opt/${PROJECT_NAME}")
+    set(CMAKE_INSTALL_PREFIX "/opt/${CPACK_PACKAGE_VENDOR}/${PROJECT_NAME}")
     set(CPACK_PACKAGING_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 endif()
 
 include(GNUInstallDirs)
 
-set(CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}")
-include_directories(BEFORE "${CMAKE_SOURCE_DIR}/include")
+include_directories(BEFORE "include")
 
 
 
-pv(CMAKE_GENERATOR)
-pv(CMAKE_GENERATOR_PLATFORM)
-pv(CMAKE_SIZEOF_VOID_P)
 
-pv(CMAKE_SYSTEM)
-pv(CMAKE_SYSTEM_NAME)
 
-pv(CPACK_PACKAGING_INSTALL_PREFIX)
-pv(CMAKE_INSTALL_PREFIX)
-
-pv(CMAKE_INSTALL_BINDIR)
-pv(CMAKE_INSTALL_FULL_BINDIR)
-pv(CMAKE_INSTALL_LIBDIR)
-pv(CMAKE_INSTALL_SYSCONFDIR)
-pv(CMAKE_INSTALL_FULL_SYSCONFDIR)
-
-pv(CMAKE_SYSTEM_PREFIX_PATH)
-pv(CMAKE_SYSTEM_PROGRAM_PATH)
-pv(CMAKE_SYSTEM_LIBRARY_PATH)
-pv(CMAKE_SYSTEM_INCLUDE_PATH)
-
-pv(CMAKE_PREFIX_PATH)
-pv(CMAKE_PROGRAM_PATH)
-pv(CMAKE_LIBRARY_PATH)
-pv(CMAKE_INCLUDE_PATH)
+add_executable(${APP_NAME} WIN32 MACOSX_BUNDLE ${sources} ${resources})
 
 
 
-add_subdirectory(src)
+find_package(Boost REQUIRED COMPONENTS log filesystem)
+# These settings must match those of the installed boost libraries.
+# Use objdump to check the "namespace", such as "v2_mt_nt6"
+# https://www.boost.org/doc/libs/master/libs/log/doc/html/log/rationale/namespace_mangling.html
+target_compile_definitions(${APP_NAME} PRIVATE
+    BOOST_ALL_DYN_LINK
+    BOOST_ATOMIC_DYN_LINK
+    BOOST_CHRONO_DYN_LINK
+    BOOST_FILESYSTEM_DYN_LINK
+    BOOST_LIB_DIAGNOSTIC
+    BOOST_LOG_DYN_LINK
+    BOOST_REGEX_DYN_LINK
+    BOOST_THREAD_DYN_LINK
+    BOOST_ALL_NO_LIB
+    BOOST_LIB_DIAGNOSTIC
+    BOOST_USE_WINAPI_VERSION=0x0600)
+target_link_libraries(${APP_NAME} PRIVATE ${Boost_LIBRARIES})
+
+find_package(wxWidgets REQUIRED COMPONENTS base core xrc)
+include(${wxWidgets_USE_FILE})
+target_link_libraries(${APP_NAME} PRIVATE ${wxWidgets_LIBRARIES})
 
 
 
-set(PROJECT_FOURCC epl2)
-set(CPACK_PACKAGE_VENDOR "nu.mine.mosher")
-set(CPACK_PACKAGE_CONTACT "cmosher01@gmail.com")
-set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}")
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${PROJECT_DESCRIPTION}")
+configure_file(include/config.h.in config.h)
+include_directories(${PROJECT_BINARY_DIR})
+
+
+
+set_target_properties(${APP_NAME} PROPERTIES RESOURCE "${resources}")
+
+
+
+
+
+include(InstallRequiredSystemLibraries)
+
+if(APPLE)
+    set_target_properties(${APP_NAME} PROPERTIES
+        MACOSX_BUNDLE_INFO_PLIST ${PROJECT_BINARY_DIR}/Info.plist)
+    install(TARGETS ${APP_NAME}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        BUNDLE DESTINATION .)
+    configure_file(share/FixBundle.cmake.in ${PROJECT_BINARY_DIR}/FixBundle.cmake @ONLY)
+    install(SCRIPT ${PROJECT_BINARY_DIR}/FixBundle.cmake)
+elseif(WIN32)
+    install(TARGETS ${APP_NAME}
+        RUNTIME_DEPENDENCIES
+            DIRECTORIES ${CMAKE_SYSTEM_LIBRARY_PATH}
+            PRE_EXCLUDE_REGEXES "api-ms-" "ext-ms-"
+            POST_EXCLUDE_REGEXES ".*system32/.*\\.dll"
+        BUNDLE DESTINATION .
+        RESOURCE DESTINATION share/Resources)
+else()
+    install(TARGETS ${APP_NAME}
+        RUNTIME_DEPENDENCIES
+            DIRECTORIES ${CMAKE_SYSTEM_LIBRARY_PATH}
+        RESOURCE DESTINATION share/Resources)
+endif()
+
+
+
+
+
+set(CPACK_GENERATOR ZIP)
 
 if(PACKAGE_SUITE)
-    set(CPACK_GENERATOR ZIP TGZ 7Z)
-    if(WIN32)
-        set(CPACK_GENERATOR ${CPACK_GENERATOR} NSIS)
-    elseif(APPLE)
+    set(CPACK_GENERATOR ${CPACK_GENERATOR} TGZ 7Z)
+    if(APPLE)
         set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}-${PROJECT_VERSION}-macOS")
-        configure_file(${PROJECT_SOURCE_DIR}/Info.plist.in ${PROJECT_BINARY_DIR}/Info.plist)
+        configure_file(share/Info.plist.in ${PROJECT_BINARY_DIR}/Info.plist)
         set(CPACK_GENERATOR ${CPACK_GENERATOR} DragNDrop)
+    elseif(WIN32)
+        set(CPACK_GENERATOR ${CPACK_GENERATOR} NSIS)
     else()
         set(CPACK_GENERATOR ${CPACK_GENERATOR} DEB)
     endif()
-else()
-    set(CPACK_GENERATOR ZIP)
 endif()
 
 include(CPack)
