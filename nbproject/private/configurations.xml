@@ -7,49 +7,16 @@
         </df>
       </df>
       <df name="bin">
-        <df name="tmp">
-          <df name="tmp.4Q8f1uB2Zk">
-          </df>
-        </df>
-      </df>
-      <df name="build">
-        <df name="CMakeFiles">
-          <df name="3.22.1">
-            <df name="CompilerIdCXX">
-              <df name="tmp">
-              </df>
-              <in>CMakeCXXCompilerId.cpp</in>
-            </df>
-          </df>
-          <df name="CMakeTmp">
-          </df>
-        </df>
-        <df name="src">
-          <df name="CMakeFiles">
-            <df name="foobar.dir">
-            </df>
-          </df>
-        </df>
-      </df>
-      <df name="etc">
       </df>
       <df name="include">
         <in>FoobarApp.h</in>
         <in>FoobarFrame.h</in>
         <in>PreferencesDialog.h</in>
       </df>
-      <df name="lib">
-      </df>
       <df name="share">
-        <df name="doc">
-        </df>
         <df name="Resources">
           <df name="config">
             <in>.template.conf</in>
-          </df>
-          <df name="disk">
-          </df>
-          <df name="rom">
           </df>
         </df>
       </df>

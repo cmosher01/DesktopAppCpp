@@ -244,11 +244,12 @@ void PreferencesDialog::OnActive(wxCommandEvent& evt) {
         CTRL(wxTreeCtrl, treItems);
         const TreeItemData *data = (TreeItemData*)treItems->GetItemData(treItems->GetSelection());
         if (data->isFile()) {
-            wxString name = wxFileName::FileName(data->path().c_str()).GetName();
+            const std::filesystem::path p = data->path();
+            wxString name = wxFileName::FileName(p.c_str()).GetName();
             this->active = name;
             wxConfigBase::Get()->Write(wxT("/ActivePreferences/name"), this->active);
-            BuildItemTree();
-            PreSelectUserConfigItemName(data->path());
+            BuildItemTree(); // invalidates "data" pointer variable
+            PreSelectUserConfigItemName(p);
         }
     } else {
         // TODO what if they uncheck the active checkbox?

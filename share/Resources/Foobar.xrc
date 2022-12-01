@@ -55,8 +55,8 @@
 													<orient>wxHORIZONTAL</orient>
 													<object class="sizeritem">
 														<option>0</option>
-														<flag></flag>
-														<border>0</border>
+														<flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+														<border>5</border>
 														<object class="wxCheckBox" name="chkActive">
 															<label>Active</label>
 															<checked>0</checked>
